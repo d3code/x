@@ -48,12 +48,12 @@ var commitCmd = &cobra.Command{
                 commitMessage = "Commit changes"
             }
 
-            commit(dir, interactive, commitMessage)
+            Commit(dir, interactive, commitMessage)
         }
     },
 }
 
-func commit(dir string, interactive bool, commitMessage string) {
+func Commit(dir string, interactive bool, commitMessage string) {
 
     shell.RunOut("git", "-C", dir, "status")
     fmt.Println()

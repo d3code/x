@@ -17,6 +17,7 @@ func GetFlagBool(cmd *cobra.Command, name string) bool {
 }
 
 func CheckArgs(args []string, required int, message string) {
+
     if len(args) < required {
         fmt.Println(message)
         os.Exit(1)
