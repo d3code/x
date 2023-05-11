@@ -13,9 +13,8 @@ import (
 )
 
 func init() {
-
     Git.AddCommand(commitCmd)
-    commitCmd.Flags().BoolP("interactive", "i", false, "interactively stage, commit, pull and push")
+    commitCmd.Flags().BoolP("interactive", "i", false, "interactively commit changes    (default: false)")
 }
 
 var commitCmd = &cobra.Command{
@@ -49,16 +48,21 @@ var commitCmd = &cobra.Command{
                 commitMessage = "Commit changes"
             }
 
-            shell.RunOut("git", "-C", dir, "status")
-            fmt.Println()
-
-            StageUntracked(dir, !interactive)
-            StageModified(dir, !interactive)
-            CommitChanges(dir, commitMessage)
-            Pull(dir, !interactive)
-            Push(dir, !interactive)
+            commit(dir, interactive, commitMessage)
         }
     },
+}
+
+func commit(dir string, interactive bool, commitMessage string) {
+
+    shell.RunOut("git", "-C", dir, "status")
+    fmt.Println()
+
+    StageUntracked(dir, !interactive)
+    StageModified(dir, !interactive)
+    CommitChanges(dir, commitMessage)
+    Pull(dir, !interactive)
+    Push(dir, !interactive)
 }
 
 func getGitSubdirectories(currentDirectory string) []string {
