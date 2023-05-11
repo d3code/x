@@ -1,14 +1,13 @@
-package config_c
+package git_c
 
 import (
     "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/git"
-    "github.com/d3code/x/internal/golang"
     "github.com/spf13/cobra"
 )
 
 func init() {
-    Config.AddCommand(Scan)
+    Git.AddCommand(Scan)
 }
 
 var Scan = &cobra.Command{
@@ -19,8 +18,5 @@ var Scan = &cobra.Command{
         directory := shell.CurrentDirectory()
         git.ScanGitDirectory(directory)
         git.RemoveNotGitRepo()
-
-        shell.Println("{{Scanning for go projects...|green}}")
-        golang.ScanGoDirectory(directory)
     },
 }

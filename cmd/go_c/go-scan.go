@@ -1,26 +1,23 @@
-package config_c
+package go_c
 
 import (
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/internal/git"
     "github.com/d3code/x/internal/golang"
     "github.com/spf13/cobra"
 )
 
 func init() {
-    Config.AddCommand(Scan)
+    Go.AddCommand(Scan)
 }
 
 var Scan = &cobra.Command{
     Use:   "scan",
-    Short: "Scan for git repositories",
+    Short: "Scan for go projects",
     Run: func(cmd *cobra.Command, args []string) {
-        shell.Println("{{Scanning for git repositories...|green}}")
-        directory := shell.CurrentDirectory()
-        git.ScanGitDirectory(directory)
-        git.RemoveNotGitRepo()
-
         shell.Println("{{Scanning for go projects...|green}}")
+        directory := shell.CurrentDirectory()
+
         golang.ScanGoDirectory(directory)
+        golang.RemoveNotGoProject()
     },
 }

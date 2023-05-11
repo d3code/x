@@ -32,6 +32,9 @@ func init() {
     if localConfig.Git == nil {
         localConfig.Git = make(map[string]Git)
     }
+    if localConfig.Golang == nil {
+        localConfig.Golang = make(map[string]Golang)
+    }
     if localConfig.Terraform == nil {
         localConfig.Terraform = make(map[string]Terraform)
     }
@@ -46,6 +49,7 @@ func init() {
 type Config struct {
     GitHub      map[string]GitHub    `json:"github"`
     Git         map[string]Git       `json:"git"`
+    Golang      map[string]Golang    `json:"go"`
     Terraform   map[string]Terraform `json:"terraform"`
     Angular     map[string]Angular   `json:"angular"`
     Docker      map[string]Docker    `json:"docker"`
@@ -61,6 +65,10 @@ type Git struct {
 type GitHub struct {
     Organization bool   `json:"organization"`
     Token        string `json:"token"`
+}
+
+type Golang struct {
+    Name string `json:"name"`
 }
 
 type Terraform struct {
