@@ -49,16 +49,15 @@ func PromptSelect(label string, items []string) (int, string) {
 }
 
 func PromptYesNo(label string) bool {
-    items := []string{"yes", "no"}
     prompt := promptui.Select{
-        Label:    label,
-        Items:    items,
-        Stdout:   NoBellStdout,
-        HideHelp: true,
+        Label:        label,
+        Items:        []string{"yes", "no"},
+        Stdout:       NoBellStdout,
+        HideHelp:     true,
+        HideSelected: true,
     }
 
     _, result, err := prompt.Run()
     errors.ExitIfError(err)
-
     return result == "yes"
 }

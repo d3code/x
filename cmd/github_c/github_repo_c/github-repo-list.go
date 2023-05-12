@@ -5,7 +5,7 @@ import (
     "fmt"
     "github.com/d3code/pkg/errors"
     "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/internal/terminal"
+    "github.com/d3code/x/pkg/terminal"
     "github.com/spf13/cobra"
     "io"
     "net/http"
@@ -55,7 +55,7 @@ func getAccount(args []string) string {
 
 func getRepoUrl(owner string) string {
     configuration := cfg.Configuration()
-    if val, ok := configuration.GitHub[owner]; ok && val.Organization {
+    if _, ok := configuration.GitHub[owner]; ok {
         return fmt.Sprintf("https://api.github.com/orgs/%s/repos", owner)
     }
 

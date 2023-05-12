@@ -8,7 +8,6 @@ import (
 
 func init() {
     RootCmd.AddCommand(setup)
-    setup.Flags().BoolP("reset", "r", false, "reset configuration")
 }
 
 var setup = &cobra.Command{

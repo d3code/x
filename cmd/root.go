@@ -14,7 +14,7 @@ import (
 func init() {
     RootCmd.AddCommand(config_c.Config)
 
-    if shell.Installed("git") {
+    if shell.Installed("go") {
         RootCmd.AddCommand(go_c.Go)
     }
 

@@ -3,7 +3,7 @@ package git_c
 import (
     "fmt"
     "github.com/d3code/x/internal/git"
-    "github.com/d3code/x/internal/terminal"
+    "github.com/d3code/x/pkg/terminal"
     "github.com/spf13/cobra"
     "os"
     "os/exec"

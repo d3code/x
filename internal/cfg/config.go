@@ -54,7 +54,6 @@ type Config struct {
     Angular     map[string]Angular   `json:"angular"`
     Docker      map[string]Docker    `json:"docker"`
     Environment struct {
-        RepositoryFolder string `json:"repository_folder"`
     } `json:"environment"`
 }
 
@@ -63,8 +62,7 @@ type Git struct {
 }
 
 type GitHub struct {
-    Organization bool   `json:"organization"`
-    Token        string `json:"token"`
+    Token string `json:"token"`
 }
 
 type Golang struct {

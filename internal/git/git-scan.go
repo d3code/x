@@ -7,20 +7,20 @@ import (
     "sync"
 )
 
-func ScanGitDirectory(directory string) {
+func Scan(directory string) {
     var wg sync.WaitGroup
     if IsGitDirectory(directory) {
         remote, _ := Remote(directory)
         cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
     } else {
         wg.Add(1)
-        go scanSubdirectories(&wg, directory)
+        go ScanSubdirectories(&wg, directory)
     }
     wg.Wait()
     cfg.Configuration().Save()
 }
 
-func scanSubdirectories(wg *sync.WaitGroup, path string) {
+func ScanSubdirectories(wg *sync.WaitGroup, path string) {
     files, _ := os.ReadDir(path)
     for _, file := range files {
         var directory string
@@ -34,18 +34,8 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
             cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
         } else if file.IsDir() {
             wg.Add(1)
-            go scanSubdirectories(wg, directory)
+            go ScanSubdirectories(wg, directory)
         }
     }
     wg.Done()
-}
-
-func RemoveNotGitRepo() {
-    config := cfg.Configuration()
-    for path, _ := range config.Git {
-        if !IsGitDirectory(path) {
-            config.DeleteGitDirectory(path)
-        }
-    }
-    config.Save()
 }

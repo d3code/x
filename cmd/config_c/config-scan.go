@@ -17,8 +17,8 @@ var Scan = &cobra.Command{
     Run: func(cmd *cobra.Command, args []string) {
         shell.Println("{{Scanning for git repositories...|green}}")
         directory := shell.CurrentDirectory()
-        git.ScanGitDirectory(directory)
-        git.RemoveNotGitRepo()
+        git.Scan(directory)
+        git.Validate()
 
         shell.Println("{{Scanning for go projects...|green}}")
         golang.ScanGoDirectory(directory)
