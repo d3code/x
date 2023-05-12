@@ -35,7 +35,8 @@ var commitCmd = &cobra.Command{
         if all {
             for path, _ := range configuration.Git {
 
-                shell.Println(fmt.Sprintf("\nChecking {{%s|blue}}", path))
+                msg := fmt.Sprintf("%sChecking {{%s|blue}}", "\n", path)
+                shell.Println(msg)
                 underline := strings.Repeat("-", len(path)+len("Checking "))
                 shell.Println(underline)
 
