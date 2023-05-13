@@ -1,8 +1,8 @@
-package terminal
+package cobra_util
 
 import (
     "fmt"
-    "github.com/d3code/pkg/errors"
+    "github.com/d3code/pkg/xerr"
     "github.com/manifoldco/promptui"
 )
 
@@ -29,7 +29,7 @@ func PromptString(label string, required bool) string {
     }
 
     result, err := prompt.Run()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     return result
 }
@@ -43,7 +43,7 @@ func PromptSelect(label string, items []string) (int, string) {
     }
 
     index, result, err := prompt.Run()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     return index, result
 }
@@ -58,6 +58,6 @@ func PromptYesNo(label string) bool {
     }
 
     _, result, err := prompt.Run()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
     return result == "yes"
 }

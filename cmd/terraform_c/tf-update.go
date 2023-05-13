@@ -1,9 +1,7 @@
-package go_c
+package terraform_c
 
 import (
-    "fmt"
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/git"
     "github.com/spf13/cobra"
@@ -11,30 +9,15 @@ import (
 )
 
 func init() {
-    Go.AddCommand(Update)
-    Update.Flags().BoolP("all", "a", false, "update all go projects")
+    Terraform.AddCommand(Update)
+    Update.Flags().BoolP("all", "a", false, "apply all terraform projects")
 }
 
 var Update = &cobra.Command{
-    Use:     "update",
-    Aliases: []string{"up"},
-    Short:   "Update go project",
+    Use:   "apply",
+    Short: "Update go project",
     Run: func(cmd *cobra.Command, args []string) {
 
-        all, err := cmd.Flags().GetBool("all")
-        xerr.ExitIfError(err)
-        if all {
-            configuration := cfg.Configuration()
-            for path, _ := range configuration.Golang {
-                shell.Println(fmt.Sprintf("\nUpdating {{%s|blue}}", path))
-                underline := strings.Repeat("-", len(path)+len("Updating "))
-                shell.Println(underline)
-                update(path)
-            }
-        } else {
-            path := shell.CurrentDirectory()
-            update(path)
-        }
     },
 }
 

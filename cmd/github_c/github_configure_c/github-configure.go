@@ -3,7 +3,7 @@ package github_configure_c
 import (
     "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/pkg/terminal"
+    "github.com/d3code/x/internal/cobra_util"
     "github.com/spf13/cobra"
 )
 
@@ -28,8 +28,8 @@ var Configure = &cobra.Command{
 }
 
 func runGitHubConfiguration() {
-    username := terminal.PromptString("GitHub username", true)
-    token := terminal.PromptString("GitHub token", true)
+    username := cobra_util.PromptString("GitHub username", true)
+    token := cobra_util.PromptString("GitHub token", true)
 
     configuration := cfg.Configuration()
     configuration.SetGitHubUser(username, cfg.GitHub{

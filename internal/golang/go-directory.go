@@ -5,7 +5,7 @@ import (
     "os"
 )
 
-func GoProject(directory string) string {
+func Go(directory string) string {
     path := shell.FullPath(directory)
     if _, err := os.Stat(path + "/go.mod"); err != nil {
         return ""

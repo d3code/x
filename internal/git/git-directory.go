@@ -2,13 +2,12 @@ package git
 
 import (
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/internal/cfg"
     "os"
     "os/exec"
     "strings"
 )
 
-func IsGitDirectory(directory string) bool {
+func Git(directory string) bool {
     path := shell.FullPath(directory)
     if f, err := os.Stat(path + "/.git"); err != nil || !f.IsDir() {
         return false
@@ -25,17 +24,4 @@ func IsGitDirectory(directory string) bool {
     }
 
     return true
-}
-
-func AddDirectory(directory string) {
-    configuration := cfg.Configuration()
-    if IsGitDirectory(directory) {
-        if _, ok := configuration.Git[directory]; !ok {
-            shell.Println("Checking {{ " + directory + " | blue }}")
-            remote, _ := Remote(directory)
-            configuration.AddGitDirectory(directory, cfg.Git{Remote: remote})
-        }
-    } else {
-        configuration.DeleteGitDirectory(directory)
-    }
 }

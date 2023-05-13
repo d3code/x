@@ -2,8 +2,8 @@ package git_c
 
 import (
     "fmt"
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/git"
     "github.com/spf13/cobra"
@@ -21,7 +21,7 @@ var commitCmd = &cobra.Command{
 
     Run: func(cmd *cobra.Command, args []string) {
         all, err := cmd.Flags().GetBool("all")
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
 
         configuration := cfg.Configuration()
 
@@ -46,7 +46,7 @@ var commitCmd = &cobra.Command{
         }
 
         currentDirectory := shell.CurrentDirectory()
-        if !git.IsGitDirectory(currentDirectory) {
+        if !git.Git(currentDirectory) {
             shell.Println("{{ Current directory is not a git repository | red }}")
             os.Exit(1)
         }

@@ -9,7 +9,7 @@ import (
 
 func Scan(directory string) {
     var wg sync.WaitGroup
-    if IsGitDirectory(directory) {
+    if Git(directory) {
         remote, _ := Remote(directory)
         cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
     } else {
@@ -29,7 +29,7 @@ func ScanSubdirectories(wg *sync.WaitGroup, path string) {
         } else {
             directory = path + "/" + file.Name()
         }
-        if IsGitDirectory(directory) {
+        if Git(directory) {
             remote, _ := Remote(directory)
             cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
         } else if file.IsDir() {

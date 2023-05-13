@@ -2,10 +2,10 @@ package git
 
 import "github.com/d3code/x/internal/cfg"
 
-func Validate() {
+func VerifyPaths() {
     config := cfg.Configuration()
     for path, _ := range config.Git {
-        if !IsGitDirectory(path) {
+        if !Git(path) {
             config.DeleteGitDirectory(path)
         }
     }

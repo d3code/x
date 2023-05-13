@@ -1,8 +1,8 @@
 package git
 
 import (
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
     "os/exec"
     "strings"
 )
@@ -10,7 +10,7 @@ import (
 func UpToDate(path string) bool {
     command := exec.Command("git", "-C", shell.FullPath(path), "status")
     output, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     if strings.Contains(string(output), "branch is up to date") {
         return true
@@ -22,7 +22,7 @@ func UpToDate(path string) bool {
 func Untracked(path string) []string {
     command := exec.Command("git", "-C", shell.FullPath(path), "status", "-s")
     output, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     var listing []string
     lines := strings.Split(string(output), "\n")
@@ -38,7 +38,7 @@ func Untracked(path string) []string {
 func Modified(path string) []string {
     command := exec.Command("git", "-C", shell.FullPath(path), "status", "-s")
     output, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     var listing []string
     lines := strings.Split(string(output), "\n")
@@ -59,7 +59,7 @@ func Modified(path string) []string {
 func Staged(path string) []string {
     command := exec.Command("git", "-C", shell.FullPath(path), "status", "-s")
     output, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     var listing []string
     lines := strings.Split(string(output), "\n")

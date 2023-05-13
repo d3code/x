@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/chzyer/readline v1.5.1
-	github.com/d3code/pkg v0.0.0-20230512135658-47873c255be9
+	github.com/d3code/pkg v0.0.0-20230513032025-ddcec067f8e1
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
 )

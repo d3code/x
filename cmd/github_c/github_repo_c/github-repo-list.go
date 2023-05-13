@@ -3,9 +3,9 @@ package github_repo_c
 import (
     "encoding/json"
     "fmt"
-    "github.com/d3code/pkg/errors"
+    "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/pkg/terminal"
+    "github.com/d3code/x/internal/cobra_util"
     "github.com/spf13/cobra"
     "io"
     "net/http"
@@ -42,12 +42,12 @@ func getAccount(args []string) string {
             owners = append(owners, name)
         }
         if len(owners) > 0 {
-            _, account = terminal.PromptSelect("Please select account", owners)
+            _, account = cobra_util.PromptSelect("Please select account", owners)
         }
     }
 
     if account == "" {
-        account = terminal.PromptString("Please select account", true)
+        account = cobra_util.PromptString("Please select account", true)
     }
 
     return account
@@ -88,7 +88,7 @@ func getRepositories(owner string) []RepoResponse {
 
     var repoResponse []RepoResponse
     err := json.Unmarshal(responseBody, &repoResponse)
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     return repoResponse
 }

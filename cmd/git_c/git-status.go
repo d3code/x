@@ -1,8 +1,8 @@
 package git_c
 
 import (
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
     "github.com/spf13/cobra"
     "os"
     "os/exec"
@@ -28,6 +28,6 @@ var gitStatus = &cobra.Command{
         command.Stderr = cmd.ErrOrStderr()
 
         err := command.Run()
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
     },
 }

@@ -2,8 +2,8 @@ package git_c
 
 import (
     "fmt"
+    "github.com/d3code/x/internal/cobra_util"
     "github.com/d3code/x/internal/git"
-    "github.com/d3code/x/pkg/terminal"
     "github.com/spf13/cobra"
     "os"
     "os/exec"
@@ -19,7 +19,7 @@ var cloneCmd = &cobra.Command{
     Use: "clone",
 
     Run: func(cmd *cobra.Command, args []string) {
-        if git.IsGitDirectory(".") {
+        if git.Git(".") {
             fmt.Println("Current directory is already a git repository")
             return
         }
@@ -46,7 +46,7 @@ func getRepository(args []string) string {
         return args[0]
     }
 
-    return terminal.PromptString("Repository to clone", true)
+    return cobra_util.PromptString("Repository to clone", true)
 }
 
 func ChangeDirectory(directory string) bool {

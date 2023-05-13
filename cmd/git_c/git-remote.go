@@ -2,8 +2,8 @@ package git_c
 
 import (
     "fmt"
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/git"
     "github.com/spf13/cobra"
     "os"
@@ -18,7 +18,7 @@ var remoteCmd = &cobra.Command{
     Use: "remote",
 
     PreRun: func(cmd *cobra.Command, args []string) {
-        if !git.IsGitDirectory(".") {
+        if !git.Git(".") {
             shell.Println("{{ERROR|red}} Current directory is not a git repository")
             os.Exit(1)
         }
@@ -30,7 +30,7 @@ var remoteCmd = &cobra.Command{
         }
 
         output, err := git.Remote(dir)
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
         fmt.Println("Remote repository [", output, "]")
     },
 }

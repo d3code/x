@@ -2,9 +2,9 @@ package config_c
 
 import (
     "github.com/d3code/pkg/encrypt"
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
     "github.com/spf13/cobra"
     "os"
 )
@@ -36,7 +36,7 @@ func rsa(cmd *cobra.Command, args []string) {
 
     if directory := cmd.Flag("directory").Value.String(); directory != "." {
         err := os.Chdir(directory)
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
     }
 
     if overwrite, _ := cmd.Flags().GetBool("overwrite"); !overwrite {
@@ -56,7 +56,7 @@ func rsa(cmd *cobra.Command, args []string) {
     publicToString := encrypt.RsaPublicToString(publicKey)
 
     cd, err := os.Getwd()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     cwd := string(cd) + "/"
 
@@ -71,5 +71,5 @@ func writeFile(private string, filename string) {
 
     privateKey := []byte(private)
     err := os.WriteFile(filename, privateKey, 0644)
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 }

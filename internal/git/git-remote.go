@@ -1,8 +1,8 @@
 package git
 
 import (
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
     "os/exec"
     "strings"
 )
@@ -26,13 +26,13 @@ func SetRemote(path string, repo string) {
 
     command := exec.Command("git", "-C", shell.FullPath(path), "remote", "set-url", "origin", url)
     _, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 }
 
 func RemoteBehind(path string) bool {
     command := exec.Command("git", "-C", shell.FullPath(path), "status")
     output, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     if strings.Contains(string(output), "branch is ahead") {
         return true
@@ -44,7 +44,7 @@ func RemoteBehind(path string) bool {
 func RemoteAhead(path string) bool {
     command := exec.Command("git", "-C", shell.FullPath(path), "status")
     output, err := command.Output()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     if strings.Contains(string(output), "branch is behind") || strings.Contains(string(output), "use \"git pull\"") {
         return true

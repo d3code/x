@@ -1,23 +1,23 @@
-package go_c
+package terraform_c
 
 import (
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/internal/golang"
+    "github.com/d3code/x/internal/terraform"
     "github.com/spf13/cobra"
 )
 
 func init() {
-    Go.AddCommand(Scan)
+    Terraform.AddCommand(Scan)
 }
 
 var Scan = &cobra.Command{
     Use:   "scan",
     Short: "Scan for go projects",
     Run: func(cmd *cobra.Command, args []string) {
-        shell.Println("{{Scanning for go projects...|green}}")
+        shell.Println("{{Scanning for terraform projects...|green}}")
         directory := shell.CurrentDirectory()
 
-        golang.Scan(directory)
-        golang.VerifyPaths()
+        terraform.Scan(directory)
+        terraform.VerifyPaths()
     },
 }

@@ -3,8 +3,8 @@ package cfg
 import (
     "encoding/json"
     "fmt"
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/files"
+    "github.com/d3code/pkg/xerr"
     "os"
     "sync"
 )
@@ -17,14 +17,14 @@ func init() {
     config := fmt.Sprintf("%s/config.json", configurationPath())
     if !files.Exist(config) {
         err := files.Save(configurationPath(), "config.json", []byte("{}"), true)
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
     }
 
     indexByteArray, err := os.ReadFile(config)
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     err = json.Unmarshal(indexByteArray, &localConfig)
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     if localConfig.GitHub == nil {
         localConfig.GitHub = make(map[string]GitHub)
@@ -70,25 +70,22 @@ type Golang struct {
 }
 
 type Terraform struct {
-    Remote string `json:"remote"`
 }
 
 type Angular struct {
-    Remote string `json:"remote"`
 }
 
 type Docker struct {
-    Remote string `json:"remote"`
 }
 
 func configurationPath() string {
     dir, err := os.UserHomeDir()
-    errors.ExitIfError(err)
+    xerr.ExitIfError(err)
 
     dir = dir + "/.x"
     if !files.Exist(dir) {
         err = os.MkdirAll(dir, 0755)
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
     }
 
     return dir

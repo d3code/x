@@ -2,8 +2,8 @@ package git_c
 
 import (
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/x/internal/cobra_util"
     "github.com/d3code/x/internal/git"
-    "github.com/d3code/x/pkg/terminal"
     "github.com/spf13/cobra"
     "os"
 )
@@ -17,7 +17,7 @@ var squashCmd = &cobra.Command{
     Use: "squash",
 
     PreRun: func(cmd *cobra.Command, args []string) {
-        if !git.IsGitDirectory(".") {
+        if !git.Git(".") {
             shell.Println("{{ERROR|red}} Current directory is not a git repository")
             os.Exit(1)
         }
@@ -26,7 +26,7 @@ var squashCmd = &cobra.Command{
         shell.RunOut("/bin/bash", "-c", "git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')")
 
         // Push
-        if terminal.PromptYesNo("Force push changes to remote?") {
+        if cobra_util.PromptYesNo("Force push changes to remote?") {
             shell.RunOut("git", "push", "-f")
             cmd.Println("Pushed to remote")
         }

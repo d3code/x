@@ -17,6 +17,6 @@ var Scan = &cobra.Command{
         shell.Println("{{Scanning for git repositories...|green}}")
         directory := shell.CurrentDirectory()
         git.Scan(directory)
-        git.Validate()
+        git.VerifyPaths()
     },
 }

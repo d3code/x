@@ -3,11 +3,11 @@ package git_c
 import (
     _ "embed"
     "fmt"
-    "github.com/d3code/pkg/errors"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
+    "github.com/d3code/x/internal/cobra_util"
     "github.com/d3code/x/internal/git"
-    "github.com/d3code/x/pkg/terminal"
     "github.com/spf13/cobra"
     "os"
     "os/exec"
@@ -25,7 +25,7 @@ var initCmd = &cobra.Command{
     Use: "init",
 
     PreRun: func(cmd *cobra.Command, args []string) {
-        if git.IsGitDirectory(".") {
+        if git.Git(".") {
             shell.Println("{{ERROR|red}} Current directory is already a git repository")
             os.Exit(1)
         }
@@ -37,22 +37,22 @@ var initCmd = &cobra.Command{
 
         command := exec.Command("git", "add", ".")
         _, err := command.Output()
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
 
         remote(cmd)
 
         command = exec.Command("git", "branch", "-M", "master")
         _, err = command.Output()
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
 
         command = exec.Command("git", "commit", "-m", "Initial commit")
         _, err = command.Output()
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
 
-        if terminal.PromptYesNo("Push to remote?") {
+        if cobra_util.PromptYesNo("Push to remote?") {
             command := exec.Command("git", "push", "-u", "origin", "master", "--force")
             _, err := command.Output()
-            errors.ExitIfError(err)
+            xerr.ExitIfError(err)
         }
     },
 }
@@ -72,7 +72,7 @@ func initialize(cmd *cobra.Command) {
         cmd.Println("Initializing Git repository")
         command := exec.Command("git", "init")
         _, err := command.Output()
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
     }
 }
 
@@ -86,7 +86,7 @@ func gitignore(cmd *cobra.Command) {
     if !files.Exist(".gitignore") {
         gitignoreCreate()
     } else {
-        if terminal.PromptYesNo("Overwrite .gitignore with defaults?") {
+        if cobra_util.PromptYesNo("Overwrite .gitignore with defaults?") {
             gitignoreCreate()
         }
     }
@@ -100,13 +100,13 @@ func gitignoreCreate() {
 }
 
 func remote(cmd *cobra.Command) {
-    repository := terminal.PromptString("Remote github repository (leave empty for none)", false)
+    repository := cobra_util.PromptString("Remote github repository (leave empty for none)", false)
     if repository != "" {
         gitUrl := fmt.Sprintf("git@github.com:d3code/%s.git", repository)
         cmd.Println("Setting remote: " + gitUrl)
 
         command := exec.Command("git", "remote", "add", "origin", gitUrl)
         _, err := command.Output()
-        errors.ExitIfError(err)
+        xerr.ExitIfError(err)
     }
 }
