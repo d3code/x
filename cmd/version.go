@@ -2,7 +2,7 @@ package cmd
 
 import (
     _ "embed"
-    "github.com/d3code/pkg/clog"
+    "github.com/d3code/clog"
     "github.com/spf13/cobra"
 )
 

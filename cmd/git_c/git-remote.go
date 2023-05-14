@@ -2,10 +2,10 @@ package git_c
 
 import (
     "fmt"
-    "github.com/d3code/pkg/clog"
+    "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
-    "github.com/d3code/x/internal/git"
+    "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
     "os"
 )

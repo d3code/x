@@ -1,7 +1,7 @@
 package git
 
 import (
-    "github.com/d3code/pkg/clog"
+    "github.com/d3code/clog"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
 )

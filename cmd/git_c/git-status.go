@@ -1,7 +1,7 @@
 package git_c
 
 import (
-    "github.com/d3code/pkg/clog"
+    "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/spf13/cobra"

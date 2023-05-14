@@ -1,9 +1,9 @@
 package github_configure_c
 
 import (
-    "github.com/d3code/pkg/clog"
-    "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/internal/cobra_util"
+    "github.com/d3code/clog"
+    "github.com/d3code/x/pkg/cfg"
+    "github.com/d3code/x/pkg/cobra_util"
     "github.com/spf13/cobra"
 )
 

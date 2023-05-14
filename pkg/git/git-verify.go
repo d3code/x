@@ -1,6 +1,6 @@
 package git
 
-import "github.com/d3code/x/internal/cfg"
+import "github.com/d3code/x/pkg/cfg"
 
 func VerifyPaths() {
     config := cfg.Configuration()

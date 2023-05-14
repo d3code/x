@@ -1,7 +1,7 @@
 package cfg
 
 import (
-    "github.com/d3code/pkg/clog"
+    "github.com/d3code/clog"
 )
 
 func (c *Config) SetGitHubUser(user string, github GitHub) {

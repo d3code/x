@@ -3,8 +3,8 @@ package git_c
 import (
     "fmt"
     "github.com/d3code/pkg/xerr"
-    "github.com/d3code/x/internal/cobra_util"
-    "github.com/d3code/x/internal/git"
+    "github.com/d3code/x/pkg/cobra_util"
+    "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
     "os"
     "os/exec"

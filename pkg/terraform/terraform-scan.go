@@ -2,7 +2,7 @@ package terraform
 
 import (
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/internal/cfg"
+    "github.com/d3code/x/pkg/cfg"
     "os"
     "strings"
     "sync"

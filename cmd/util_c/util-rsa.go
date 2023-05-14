@@ -1,7 +1,7 @@
 package util_c
 
 import (
-    "github.com/d3code/pkg/clog"
+    "github.com/d3code/clog"
     "os"
 
     "github.com/d3code/pkg/encrypt"
