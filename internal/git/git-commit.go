@@ -1,7 +1,6 @@
 package git
 
 import (
-    "fmt"
     "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
@@ -24,7 +23,7 @@ func StageCommitFetchPullPush(path string, commitMessage string) {
     Stage(path)
     Commit(path, commitMessage)
 
-    shell.RunDir(path, "git", "fetch", "-n")
+    shell.RunOutDir(path, "git", "fetch", "-n")
     Pull(path)
     Push(path)
 }
@@ -32,12 +31,12 @@ func StageCommitFetchPullPush(path string, commitMessage string) {
 func Commit(path string, commitMessage string) bool {
     status := shell.RunDir(path, "git", "status", "--porcelain")
     if len(status) == 0 {
-        clog.Info("No changes to commit")
+        clog.Debug("git commit", "No changes to commit")
         return false
     }
 
     if len(commitMessage) == 0 {
-        fmt.Println("No commit message given")
+        clog.Debug("git commit", "No commit message given")
         return false
     }
 
@@ -46,10 +45,21 @@ func Commit(path string, commitMessage string) bool {
 }
 
 func Pull(path string) {
-    shell.RunOutDir(path, "git", "pull", "--rebase")
+    shell.RunOutDir(path, "git", "pull", "--ff-only", "--no-rebase")
 }
 
 func Push(path string) {
     branch := shell.RunDir(path, "git", "branch", "--show-current")
     shell.RunOutDir(path, "git", "push", "-u", "origin", branch)
+}
+
+func Stage(path string) bool {
+    status := shell.RunDir(path, "git", "status", "--porcelain")
+    if len(status) == 0 {
+        clog.Debug("git add", "No unstaged changes")
+        return false
+    }
+
+    shell.RunOutDir(path, "git", "add", ".")
+    return true
 }
