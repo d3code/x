@@ -45,7 +45,7 @@ func Commit(path string, commitMessage string) bool {
 }
 
 func Pull(path string) {
-    shell.RunOutDir(path, "git", "pull", "--ff-only", "--no-rebase")
+    shell.RunOutDir(path, "git", "pull", "--ff-only")
 }
 
 func Push(path string) {
