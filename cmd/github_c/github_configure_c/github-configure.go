@@ -1,7 +1,7 @@
 package github_configure_c
 
 import (
-    "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/cobra_util"
     "github.com/spf13/cobra"
@@ -22,7 +22,7 @@ var Configure = &cobra.Command{
         }
 
         for account, _ := range configuration.GitHub {
-            shell.Println("{{Account:|green}} " + account)
+            clog.Info("{{Account:|green}} " + account)
         }
     },
 }

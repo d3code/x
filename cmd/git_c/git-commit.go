@@ -2,6 +2,7 @@ package git_c
 
 import (
     "fmt"
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
@@ -36,9 +37,9 @@ var commitCmd = &cobra.Command{
             for path, _ := range configuration.Git {
 
                 msg := fmt.Sprintf("%sChecking {{%s|blue}}", "\n", path)
-                shell.Println(msg)
+                clog.Info(msg)
                 underline := strings.Repeat("-", len(path)+len("Checking "))
-                shell.Println(underline)
+                clog.Info(underline)
 
                 git.StageCommitFetchPullPush(path, commitMessage)
             }
@@ -47,12 +48,12 @@ var commitCmd = &cobra.Command{
 
         currentDirectory := shell.CurrentDirectory()
         if !git.Git(currentDirectory) {
-            shell.Println("{{ Current directory is not a git repository | red }}")
+            clog.Info("{{ Current directory is not a git repository | red }}")
             os.Exit(1)
         }
 
         underline := strings.Repeat("-", len(currentDirectory)+len("Checking "))
-        shell.Println(underline)
+        clog.Info(underline)
 
         shell.RunOut("git", "-C", currentDirectory, "status")
         fmt.Println()

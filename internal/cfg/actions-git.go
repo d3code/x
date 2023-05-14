@@ -1,13 +1,13 @@
 package cfg
 
 import (
-    "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/clog"
 )
 
 func (c *Config) AddGitDirectory(path string, git Git) {
     mapMutex.Lock()
     if _, ok := c.Git[path]; !ok {
-        shell.Println("[ git   ] {{ " + path + " | blue }} added")
+        clog.Info("[ git   ] {{ " + path + " | blue }} added")
         c.Git[path] = git
     }
     mapMutex.Unlock()
@@ -16,7 +16,7 @@ func (c *Config) AddGitDirectory(path string, git Git) {
 func (c *Config) DeleteGitDirectory(path string) {
     mapMutex.Lock()
     if _, ok := c.Git[path]; ok {
-        shell.Println("[ git   ] {{ " + path + " | red }} removed")
+        clog.Info("[ git   ] {{ " + path + " | red }} removed")
         delete(c.Git, path)
     }
     mapMutex.Unlock()

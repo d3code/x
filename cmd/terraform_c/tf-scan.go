@@ -1,6 +1,7 @@
 package terraform_c
 
 import (
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/terraform"
     "github.com/spf13/cobra"
@@ -14,7 +15,7 @@ var Scan = &cobra.Command{
     Use:   "scan",
     Short: "Scan for go projects",
     Run: func(cmd *cobra.Command, args []string) {
-        shell.Println("{{Scanning for terraform projects...|green}}")
+        clog.Info("{{Scanning for terraform projects...|green}}")
         directory := shell.CurrentDirectory()
 
         terraform.Scan(directory)

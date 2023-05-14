@@ -2,6 +2,7 @@ package git_c
 
 import (
     "fmt"
+    "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cobra_util"
     "github.com/d3code/x/internal/git"
     "github.com/spf13/cobra"
@@ -10,9 +11,7 @@ import (
 )
 
 func init() {
-
     Git.AddCommand(cloneCmd)
-    cloneCmd.Flags().StringP("dir", "d", "", "change parent directory")
 }
 
 var cloneCmd = &cobra.Command{
@@ -24,11 +23,6 @@ var cloneCmd = &cobra.Command{
             return
         }
 
-        directory := cmd.Flag("dir").Value.String()
-        if ChangeDirectory(directory) {
-            fmt.Println("Clone to directory: " + directory)
-        }
-
         repository := getRepository(args)
         url := git.FormatRepositoryUrl(repository)
 
@@ -37,7 +31,7 @@ var cloneCmd = &cobra.Command{
         command.Stderr = cmd.ErrOrStderr()
 
         err := command.Run()
-        ExitIfError(err, "Error cloning repository")
+        xerr.ExitIfError(err)
     },
 }
 

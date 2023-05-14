@@ -2,6 +2,7 @@ package git_c
 
 import (
     "fmt"
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/git"
@@ -19,7 +20,7 @@ var remoteCmd = &cobra.Command{
 
     PreRun: func(cmd *cobra.Command, args []string) {
         if !git.Git(".") {
-            shell.Println("{{ERROR|red}} Current directory is not a git repository")
+            clog.Info("{{ERROR|red}} Current directory is not a git repository")
             os.Exit(1)
         }
     },

@@ -1,6 +1,7 @@
 package git_c
 
 import (
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/spf13/cobra"
@@ -18,7 +19,7 @@ var gitStatus = &cobra.Command{
     PersistentPreRun: func(cmd *cobra.Command, args []string) {
         err := shell.RunOutE("which", "git")
         if err != nil {
-            shell.Println("{{ ERROR:|red}} git is not installed ")
+            clog.Info("{{ ERROR:|red}} git is not installed ")
             os.Exit(1)
         }
     },

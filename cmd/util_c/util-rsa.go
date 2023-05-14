@@ -1,24 +1,25 @@
-package config_c
+package util_c
 
 import (
+    "github.com/d3code/pkg/clog"
+    "os"
+
     "github.com/d3code/pkg/encrypt"
     "github.com/d3code/pkg/files"
-    "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/spf13/cobra"
-    "os"
 )
 
 func init() {
-    Config.AddCommand(rsaCmd)
-    rsaCmd.Flags().StringP("directory", "d", ".", "directory to create keys")
-    rsaCmd.Flags().BoolP("overwrite", "o", false, "overwrite existing files in directory")
-    rsaCmd.Flags().IntP("bits", "b", 4096, "number of bits for key generation")
-    rsaCmd.Flags().StringP("private", "p", "generated_key.pem", "private key filename")
-    rsaCmd.Flags().StringP("public", "u", "generated_key.pub", "public key filename")
+    Util.AddCommand(rsaCommand)
+    rsaCommand.Flags().StringP("directory", "d", ".", "directory to create keys")
+    rsaCommand.Flags().BoolP("overwrite", "o", false, "overwrite existing files in directory")
+    rsaCommand.Flags().IntP("bits", "b", 4096, "number of bits for key generation")
+    rsaCommand.Flags().StringP("private", "p", "generated_key.pem", "private key filename")
+    rsaCommand.Flags().StringP("public", "u", "generated_key.pub", "public key filename")
 }
 
-var rsaCmd = &cobra.Command{
+var rsaCommand = &cobra.Command{
     Use:   "rsa",
     Short: "RSA key generation",
     Long:  `Generate RSA keys`,
@@ -28,7 +29,7 @@ var rsaCmd = &cobra.Command{
 func rsa(cmd *cobra.Command, args []string) {
     bits, _ := cmd.Flags().GetInt("bits")
     if bits != 4096 {
-        shell.Println("Specifying{{ --bits | red }} is not implemented yet, using {{ 4096 bits | green }} for key generation")
+        clog.Info("Specifying{{ --bits | red }} is not implemented yet, using {{ 4096 bits | green }} for key generation")
     }
 
     privateKeyName := cmd.Flag("private").Value.String()
@@ -41,10 +42,10 @@ func rsa(cmd *cobra.Command, args []string) {
 
     if overwrite, _ := cmd.Flags().GetBool("overwrite"); !overwrite {
         if files.Exist(privateKeyName) {
-            shell.Println("File {{ " + privateKeyName + " | red }} exists in directory, use {{ --overwrite | green }} or {{ -o | green }} to overwrite")
+            clog.Info("File {{ " + privateKeyName + " | red }} exists in directory, use {{ --overwrite | green }} or {{ -o | green }} to overwrite")
         }
         if files.Exist(publicKeyName) {
-            shell.Println("File {{ " + publicKeyName + " | red }} exists in directory, use {{ --overwrite | green }} or {{ -o | green }} to overwrite")
+            clog.Info("File {{ " + publicKeyName + " | red }} exists in directory, use {{ --overwrite | green }} or {{ -o | green }} to overwrite")
         }
         if files.Exist(privateKeyName) || files.Exist(publicKeyName) {
             os.Exit(0)
@@ -61,10 +62,10 @@ func rsa(cmd *cobra.Command, args []string) {
     cwd := string(cd) + "/"
 
     writeFile(privateToString, privateKeyName)
-    shell.Println("Created private key {{" + cwd + privateKeyName + "|blue}}")
+    clog.Info("Created private key {{" + cwd + privateKeyName + "|blue}}")
 
     writeFile(publicToString, publicKeyName)
-    shell.Println("Created public key {{" + cwd + publicKeyName + "|blue}}")
+    clog.Info("Created public key {{" + cwd + publicKeyName + "|blue}}")
 }
 
 func writeFile(private string, filename string) {

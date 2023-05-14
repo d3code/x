@@ -1,6 +1,7 @@
 package go_c
 
 import (
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/golang"
     "github.com/spf13/cobra"
@@ -14,10 +15,8 @@ var Scan = &cobra.Command{
     Use:   "scan",
     Short: "Scan for go projects",
     Run: func(cmd *cobra.Command, args []string) {
-        shell.Println("{{Scanning for go projects...|green}}")
         directory := shell.CurrentDirectory()
-
+        clog.UnderlineF("Scanning {{%s|green}} projects under {{%s|blue}}", "go", directory)
         golang.Scan(directory)
-        golang.VerifyPaths()
     },
 }

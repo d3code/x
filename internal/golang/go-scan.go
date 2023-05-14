@@ -1,6 +1,7 @@
 package golang
 
 import (
+    "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/cfg"
     "os"
     "strings"
@@ -23,6 +24,8 @@ func Scan(directory string) {
 
 func scanSubdirectories(wg *sync.WaitGroup, path string) {
     files, _ := os.ReadDir(path)
+    home := shell.UserHomeDirectory()
+
     for _, file := range files {
         var directory string
         if strings.HasSuffix(path, "/") {
@@ -34,7 +37,11 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
             cfg.Configuration().AddGolang(directory, cfg.Golang{
                 Name: name,
             })
-        } else if file.IsDir() {
+        } else if file.IsDir() &&
+            !strings.HasPrefix(directory, home+"/Library/") &&
+            !strings.HasPrefix(directory, home+"/go/") &&
+            !strings.Contains(directory, "/.git/") {
+
             wg.Add(1)
             go scanSubdirectories(wg, directory)
         }

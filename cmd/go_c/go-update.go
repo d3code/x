@@ -1,7 +1,7 @@
 package go_c
 
 import (
-    "fmt"
+    "github.com/d3code/pkg/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
@@ -26,9 +26,7 @@ var Update = &cobra.Command{
         if all {
             configuration := cfg.Configuration()
             for path, _ := range configuration.Golang {
-                shell.Println(fmt.Sprintf("\nUpdating {{%s|blue}}", path))
-                underline := strings.Repeat("-", len(path)+len("Updating "))
-                shell.Println(underline)
+                clog.Underline("Updating {{", path, "|blue}}")
                 update(path)
             }
         } else {
@@ -39,11 +37,11 @@ var Update = &cobra.Command{
 }
 
 func update(directory string) {
-    shell.Println("{{Updating go project...|green}}")
+    clog.Info("{{Updating go project...|green}}")
 
     pro, err := shell.RunDirE(directory, "go", "list", "-m")
     if err != nil {
-        shell.Println("{{No go project found|yellow}}")
+        clog.Info("{{No go project found|yellow}}")
         return
     }
     list := strings.Split(pro, "\n")

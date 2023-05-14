@@ -2,25 +2,37 @@ package git
 
 import (
     "fmt"
+    "github.com/d3code/pkg/clog"
+    "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
 )
 
 func StageCommitFetchPullPush(path string, commitMessage string) {
-
     path = shell.FullPath(path)
 
+    if !Git(path) {
+        clog.Info("{{ Current directory is not a git repository | red }}")
+        return
+    }
+
+    file := path + "/.gitignore"
+    if !files.Exist(file) {
+        clog.InfoF("Creating {{ %s | green }} file with defaults at {{ %s | blue }}", " .gitignore", file)
+        GitignoreCreate(path)
+    }
+
     Stage(path)
-    CommitChanges(path, commitMessage)
+    Commit(path, commitMessage)
 
     shell.RunDir(path, "git", "fetch", "-n")
     Pull(path)
     Push(path)
 }
 
-func CommitChanges(path string, commitMessage string) bool {
+func Commit(path string, commitMessage string) bool {
     status := shell.RunDir(path, "git", "status", "--porcelain")
     if len(status) == 0 {
-        shell.Println("No changes to commit")
+        clog.Info("No changes to commit")
         return false
     }
 
@@ -34,9 +46,10 @@ func CommitChanges(path string, commitMessage string) bool {
 }
 
 func Pull(path string) {
-    shell.RunDir(path, "git", "pull", "--rebase")
+    shell.RunOutDir(path, "git", "pull", "--rebase")
 }
 
 func Push(path string) {
-    shell.RunDir(path, "git", "push")
+    branch := shell.RunDir(path, "git", "branch", "--show-current")
+    shell.RunOutDir(path, "git", "push", "-u", "origin", branch)
 }
