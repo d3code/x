@@ -7,7 +7,7 @@ import (
 func (c *Config) AddGitDirectory(path string, git Git) {
     mapMutex.Lock()
     if _, ok := c.Git[path]; !ok {
-        clog.Info("[ git   ] {{ " + path + " | blue }} added")
+        clog.Debug("Added git repository " + path + " -> " + git.Remote)
         c.Git[path] = git
     }
     mapMutex.Unlock()
@@ -16,7 +16,7 @@ func (c *Config) AddGitDirectory(path string, git Git) {
 func (c *Config) DeleteGitDirectory(path string) {
     mapMutex.Lock()
     if _, ok := c.Git[path]; ok {
-        clog.Info("[ git   ] {{ " + path + " | red }} removed")
+        clog.Warn("Removed git repository " + path)
         delete(c.Git, path)
     }
     mapMutex.Unlock()

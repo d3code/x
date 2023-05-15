@@ -3,6 +3,7 @@ package git_c
 import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
+    "github.com/d3code/x/pkg/cfg"
     "github.com/d3code/x/pkg/cobra_util"
     "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
@@ -30,7 +31,26 @@ var cloneCmd = &cobra.Command{
         }
 
         url := git.FormatRepositoryUrl(repository)
-        shell.RunCmd(".", true, "git", "clone", url)
+        e := shell.RunCmd(".", false, "git", "clone", url)
+
+        directory := clonedDirectory(e.Stderr)
+        if len(directory) == 0 {
+            clog.Info(e.Stdout)
+            clog.Info(e.Stderr)
+            clog.Warn("Could not determine cloned directory")
+            return
+        }
+
+        directory = shell.FullPath(directory)
+        clog.Info("Cloned into {{ " + directory + " | blue }}")
+
+        git.GitignoreCreate(directory)
+
+        remote, _ := git.Remote(directory)
+
+        configuration := cfg.Configuration()
+        configuration.AddGitDirectory(directory, cfg.Git{Remote: remote})
+        configuration.Save()
     },
 }
 

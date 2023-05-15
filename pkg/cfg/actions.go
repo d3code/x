@@ -3,6 +3,7 @@ package cfg
 import (
     "encoding/json"
     "fmt"
+    "github.com/d3code/clog"
     "github.com/d3code/pkg/xerr"
     "os"
 )
@@ -19,4 +20,6 @@ func (c *Config) Save() {
 
     err = os.WriteFile(file, configJson, 0666)
     xerr.ExitIfError(err)
+
+    clog.Debug("Saved configuration")
 }
