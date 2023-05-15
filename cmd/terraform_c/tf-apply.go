@@ -25,8 +25,8 @@ var Update = &cobra.Command{
             for path, _ := range configuration.Terraform {
                 clog.Info("Applying terraform project {{" + path + "|blue}}")
 
-                shell.RunOutDir(path, "terraform", "init")
-                shell.RunOutDir(path, "terraform", "apply", "--auto-approve")
+                shell.RunCmd(path, true, "terraform", "init")
+                shell.RunCmd(path, true, "terraform", "apply", "--auto-approve")
             }
         } else {
             clog.Info("To implement")

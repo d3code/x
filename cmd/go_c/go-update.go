@@ -39,15 +39,15 @@ var Update = &cobra.Command{
 func update(directory string) {
     clog.Info("{{Updating go project...|green}}")
 
-    pro, err := shell.RunDirE(directory, "go", "list", "-m")
+    pro, err := shell.RunCmdE(directory, false, "go", "list", "-m")
     if err != nil {
         clog.Info("{{No go project found|yellow}}")
         return
     }
-    list := strings.Split(pro, "\n")
+    list := strings.Split(pro.Stdout, "\n")
 
-    graph := shell.RunDir(directory, "go", "mod", "graph")
-    lines := strings.Split(graph, "\n")
+    graph := shell.RunCmd(directory, false, "go", "mod", "graph")
+    lines := strings.Split(graph.Stdout, "\n")
 
     var modules []string
     for _, line := range lines {
@@ -73,16 +73,16 @@ func update(directory string) {
                 message := "Update " + golang.Name
                 git.StageCommitFetchPullPush(path, message)
 
-                commit := shell.RunShell("(cd " + path + ";git rev-parse HEAD 2>/dev/null)")
-                dependencyVersions[golang.Name] = commit
+                commit := shell.RunShell(false, "(cd "+path+";git rev-parse HEAD 2>/dev/null)")
+                dependencyVersions[golang.Name] = commit.Stdout
             }
         }
     }
 
     for m, commit := range dependencyVersions {
-        shell.RunOutDir(directory, "go", "get", m+"@"+commit)
+        shell.RunCmd(directory, false, "go", "get", m+"@"+commit)
     }
 
-    shell.RunOutDir(directory, "go", "get", "-u", "./...")
-    shell.RunOutDir(directory, "go", "mod", "tidy")
+    shell.RunCmd(directory, false, "go", "get", "-u", "./...")
+    shell.RunCmd(directory, false, "go", "mod", "tidy")
 }

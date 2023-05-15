@@ -15,7 +15,7 @@ func Terraform(directory string) bool {
 
     for _, entry := range dir {
         if strings.HasSuffix(entry.Name(), ".tf") {
-            _, tfErr := shell.RunDirE(directory, "terraform", "validate")
+            _, tfErr := shell.RunCmdE(directory, false, "terraform", "validate")
             return tfErr == nil
         }
     }

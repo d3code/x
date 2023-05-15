@@ -24,9 +24,7 @@ func Remote(path string) (string, error) {
 func SetRemote(path string, repo string) {
     url := FormatRepositoryUrl(repo)
 
-    command := exec.Command("git", "-C", shell.FullPath(path), "remote", "set-url", "origin", url)
-    _, err := command.Output()
-    xerr.ExitIfError(err)
+    shell.RunCmd(path, false, "git", "remote", "set-url", "origin", url)
 }
 
 func RemoteBehind(path string) bool {

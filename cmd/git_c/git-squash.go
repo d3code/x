@@ -17,7 +17,6 @@ func init() {
 
 var squashCmd = &cobra.Command{
     Use: "squash",
-
     PreRun: func(cmd *cobra.Command, args []string) {
         if !git.Git(".") {
             clog.Info("{{ERROR|red}} Current directory is not a git repository")
@@ -25,11 +24,11 @@ var squashCmd = &cobra.Command{
         }
     },
     Run: func(cmd *cobra.Command, args []string) {
-        shell.RunOut("/bin/bash", "-c", "git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')")
+        shell.RunShell(true, "git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')")
 
         // Push
         if cobra_util.PromptConfirm("Force push changes to remote?") {
-            shell.RunOut("git", "push", "-f")
+            shell.RunCmd(".", true, "git", "push", "-f")
             cmd.Println("Pushed to remote")
         }
     },

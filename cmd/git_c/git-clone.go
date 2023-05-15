@@ -1,13 +1,12 @@
 package git_c
 
 import (
-    "fmt"
-    "github.com/d3code/pkg/xerr"
+    "github.com/d3code/clog"
+    "github.com/d3code/pkg/shell"
     "github.com/d3code/x/pkg/cobra_util"
     "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
-    "os"
-    "os/exec"
+    "regexp"
 )
 
 func init() {
@@ -19,40 +18,29 @@ var cloneCmd = &cobra.Command{
 
     Run: func(cmd *cobra.Command, args []string) {
         if git.Git(".") {
-            fmt.Println("Current directory is already a git repository")
+            clog.Error("Current directory is already a git repository")
             return
         }
 
-        repository := getRepository(args)
+        var repository string
+        if len(args) > 0 {
+            repository = args[0]
+        } else {
+            repository = cobra_util.PromptString("Repository to clone", true)
+        }
+
         url := git.FormatRepositoryUrl(repository)
-
-        command := exec.Command("git", "clone", url)
-        command.Stdout = cmd.OutOrStdout()
-        command.Stderr = cmd.ErrOrStderr()
-
-        err := command.Run()
-        xerr.ExitIfError(err)
+        shell.RunCmd(".", true, "git", "clone", url)
     },
 }
 
-func getRepository(args []string) string {
-    if len(args) > 0 {
-        return args[0]
+func clonedDirectory(message string) string {
+    re := regexp.MustCompile(`Cloning into '([^'/].+)'`)
+    matches := re.FindAllStringSubmatch(message, -1)
+
+    if len(matches) == 1 && len(matches[0]) == 2 {
+        return matches[0][1]
     }
 
-    return cobra_util.PromptString("Repository to clone", true)
-}
-
-func ChangeDirectory(directory string) bool {
-    if directory == "" {
-        return false
-    }
-
-    err := os.Chdir(directory)
-    if err != nil {
-        fmt.Println(err)
-        return false
-    }
-
-    return true
+    return ""
 }

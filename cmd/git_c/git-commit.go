@@ -1,15 +1,11 @@
 package git_c
 
 import (
-    "fmt"
     "github.com/d3code/clog"
-    "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/pkg/cfg"
     "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
-    "os"
-    "strings"
 )
 
 func init() {
@@ -19,7 +15,6 @@ func init() {
 
 var commitCmd = &cobra.Command{
     Use: "commit",
-
     Run: func(cmd *cobra.Command, args []string) {
         all, err := cmd.Flags().GetBool("all")
         xerr.ExitIfError(err)
@@ -34,31 +29,13 @@ var commitCmd = &cobra.Command{
         }
 
         if all {
-            for path, _ := range configuration.Git {
-
-                msg := fmt.Sprintf("%sChecking {{%s|blue}}", "\n", path)
-                clog.Info(msg)
-                underline := strings.Repeat("-", len(path)+len("Checking "))
-                clog.Info(underline)
-
+            for path := range configuration.Git {
+                clog.UnderlineF("Checking {{ %s | blue }}", path)
                 git.StageCommitFetchPullPush(path, commitMessage)
             }
             return
         }
 
-        currentDirectory := shell.CurrentDirectory()
-        if !git.Git(currentDirectory) {
-            clog.Info("{{ Current directory is not a git repository | red }}")
-            os.Exit(1)
-        }
-
-        underline := strings.Repeat("-", len(currentDirectory)+len("Checking "))
-        clog.Info(underline)
-
-        shell.RunOut("git", "-C", currentDirectory, "status")
-        fmt.Println()
-
-        git.StageCommitFetchPullPush(currentDirectory, commitMessage)
-
+        git.StageCommitFetchPullPush(".", commitMessage)
     },
 }
