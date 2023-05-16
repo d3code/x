@@ -1,6 +1,7 @@
 package go_c
 
 import (
+    "fmt"
     "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
@@ -43,7 +44,6 @@ func UpdateGo(directory string) {
         return
     }
 
-    clog.InfoF("Updating {{ go | green }} project {{ %s | blue }}", directory)
     list := strings.Split(project.Stdout, "\n")
 
     graph := shell.RunCmd(directory, false, "go", "mod", "graph")
@@ -71,8 +71,11 @@ func UpdateGo(directory string) {
             if golang.Name == module {
                 clog.InfoF("Updating dependent project {{ %s | blue }}", golang.Name)
                 git.StageCommitFetchPullPush(path, "")
+
                 commit := shell.RunShell(false, "(cd "+path+";git rev-parse HEAD 2>/dev/null)")
                 dependencyVersions[golang.Name] = commit.Stdout
+
+                fmt.Println()
             }
         }
     }
