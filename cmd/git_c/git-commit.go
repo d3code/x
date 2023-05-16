@@ -2,10 +2,12 @@ package git_c
 
 import (
     "github.com/d3code/clog"
+    "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/pkg/cfg"
     "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
+    "strings"
 )
 
 func init() {
@@ -34,6 +36,19 @@ var commitCmd = &cobra.Command{
             return
         }
 
-        git.StageCommitFetchPullPush(".", commitMessage)
+        directory := shell.CurrentDirectory()
+        UpdateGoProject(directory)
+
+        git.StageCommitFetchPullPush(directory, commitMessage)
     },
+}
+
+func UpdateGoProject(updatePath string) {
+
+    configuration := cfg.Configuration()
+    for path, golang := range configuration.Golang {
+        if strings.HasPrefix(updatePath, path) {
+            clog.InfoF("Updating %v", golang)
+        }
+    }
 }
