@@ -22,10 +22,8 @@ var commitCmd = &cobra.Command{
         configuration := cfg.Configuration()
 
         var commitMessage string
-        if len(args) == 1 && args[0] != "" {
+        if len(args) == 1 {
             commitMessage = args[0]
-        } else {
-            commitMessage = "Auto commit"
         }
 
         if all {

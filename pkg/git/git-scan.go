@@ -17,7 +17,6 @@ func Scan(directory string) {
         go ScanSubdirectories(&wg, directory)
     }
     wg.Wait()
-    cfg.Configuration().Save()
 }
 
 func ScanSubdirectories(wg *sync.WaitGroup, path string) {

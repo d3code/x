@@ -1,16 +1,16 @@
 package github_c
 
 import (
-    "github.com/d3code/x/cmd/github_c/github_account_c"
-    "github.com/d3code/x/cmd/github_c/github_configure_c"
+    "github.com/d3code/x/cmd/github_c/github_config_c"
+    "github.com/d3code/x/cmd/github_c/github_issue_c"
     "github.com/d3code/x/cmd/github_c/github_repo_c"
     "github.com/spf13/cobra"
 )
 
 func init() {
-    GitHub.AddCommand(github_repo_c.Repo)
-    GitHub.AddCommand(github_account_c.Account)
-    GitHub.AddCommand(github_configure_c.Configure)
+    GitHub.AddCommand(github_repo_c.Root)
+    GitHub.AddCommand(github_config_c.Root)
+    GitHub.AddCommand(github_issue_c.Root)
 }
 
 var GitHub = &cobra.Command{

@@ -10,6 +10,7 @@ func (c *Config) AddGitDirectory(path string, git Git) {
         clog.Debug("Added git repository " + path + " -> " + git.Remote)
         c.Git[path] = git
     }
+    c.Save()
     mapMutex.Unlock()
 }
 
@@ -19,5 +20,6 @@ func (c *Config) DeleteGitDirectory(path string) {
         clog.Warn("Removed git repository " + path)
         delete(c.Git, path)
     }
+    c.Save()
     mapMutex.Unlock()
 }

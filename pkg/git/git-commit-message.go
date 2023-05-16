@@ -1,32 +1,25 @@
 package git
 
+import (
+    "strings"
+)
+
+var (
+    messageModified = []string{"🚀 Updated", "🚧 Work in progress"}
+    messageRefactor = []string{"📝 Refactor code", "👌 Improve code structure", "⚡ Improve performance"}
+    messageRemove   = []string{"🗑️ Remove unused code", "🔥 Remove code or files"}
+    messageFix      = []string{"🐛 Fix bugs", "🚑 Fix critical bug", "🔒 Fix security issues", "🚨 Fix linter warnings"}
+    messageDocs     = []string{"📝 Add or update documentation", "📚 Add or update documentation"}
+    messageTest     = []string{"✅ Add or update tests", "🚨 Fix linter warnings"}
+)
+
 func GenerateCommitMessage(status string) string {
+    lines := strings.Split(status, "\n")
 
-    message := "🚀 Update project"
-    message = "🚧 Work in progress"
-    message = "✨ Add new feature"
+    var x map[string][]string
+    for _, line := range lines {
+        x[line[:1]] = append(x[line[:1]], line[3:])
+    }
 
-    message = "🔨 Refactor code"
-    message = "👌 Improve code structure"
-    message = "🐎 Improve performance"
-
-    message = "🗑️ Remove unused code"
-    message = "🔥 Remove code or files"
-
-    message = "🐛 Fix bugs"
-    message = "🚑 Fix critical bug"
-    message = "🔒 Fix security issues"
-    message = "🚨 Fix linter warnings"
-
-    message = "👷 Add CI build system"
-    message = "🔧 Add or update configuration files"
-
-    message = "🚀 Create new version"
-    message = "🔖 Release version"
-    message = "🚀 Deploy stuff"
-
-    message = "📝 Update documentation"
-    message = "📝 Update license"
-
-    return message
+    return ""
 }

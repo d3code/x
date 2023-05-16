@@ -9,5 +9,4 @@ func VerifyPaths() {
             config.DeleteGitDirectory(path)
         }
     }
-    config.Save()
 }

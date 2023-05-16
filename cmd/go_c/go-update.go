@@ -26,7 +26,7 @@ var Update = &cobra.Command{
         if all {
             configuration := cfg.Configuration()
             for path, _ := range configuration.Golang {
-                clog.Underline("Updating {{", path, "|blue}}")
+                clog.Underline("Updating", path)
                 update(path)
             }
         } else {
@@ -41,7 +41,7 @@ func update(directory string) {
 
     pro, err := shell.RunCmdE(directory, false, "go", "list", "-m")
     if err != nil {
-        clog.Info("{{No go project found|yellow}}")
+        clog.Warn("No go project found")
         return
     }
     list := strings.Split(pro.Stdout, "\n")
@@ -83,6 +83,6 @@ func update(directory string) {
         shell.RunCmd(directory, false, "go", "get", m+"@"+commit)
     }
 
-    shell.RunCmd(directory, false, "go", "get", "-u", "./...")
+    shell.RunCmd(directory, false, "go", "get", "-t", "-u", "./...")
     shell.RunCmd(directory, false, "go", "mod", "tidy")
 }

@@ -4,13 +4,16 @@ import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
+    "math/rand"
     "os"
     "strings"
 )
 
+var commitMessages = []string{"🚀 Updated", "🚧 Work in progress", "✨ Made some changes", "📝 Refactored code"}
+
 func StageCommitFetchPullPush(path string, commitMessage string) {
     path = shell.FullPath(path)
-    clog.Debug("Path:", path)
+    clog.Debug(path)
 
     if !Git(path) {
         clog.Error(path, "is not a git repository")
@@ -40,8 +43,8 @@ func Commit(path string, commitMessage string) bool {
     }
 
     if len(commitMessage) == 0 {
-        clog.Debug("No commit message given")
-        return false
+        commitMessage = commitMessages[rand.Intn(len(commitMessages))]
+        clog.Warn("No commit message provided, using [", commitMessage, "]")
     }
 
     shell.RunCmd(path, false, "git", "commit", "-m", commitMessage)

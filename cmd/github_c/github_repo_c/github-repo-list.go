@@ -1,94 +1,74 @@
 package github_repo_c
 
 import (
-    "encoding/json"
-    "fmt"
+    "github.com/d3code/clog"
+    "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/pkg/cfg"
     "github.com/d3code/x/pkg/cobra_util"
+    "github.com/d3code/x/pkg/github"
+    "github.com/manifoldco/promptui"
     "github.com/spf13/cobra"
-    "io"
-    "net/http"
     "os"
+    "sort"
 )
 
 func init() {
 
-    Repo.AddCommand(List)
+    Root.AddCommand(List)
 }
 
 var List = &cobra.Command{
     Use: "list",
 
     Run: func(cmd *cobra.Command, args []string) {
-        owner := getAccount(args)
+        account := Account()
+        repositories := github.Repositories(account)
+        sort.Sort(github.RepositoryList(repositories))
 
-        repoResponse := getRepositories(owner)
-        for _, repo := range repoResponse {
-            fmt.Println(owner + "/" + repo.Name)
+        for _, repo := range repositories {
+            var private string
+            if repo.Private {
+                private = "[p]"
+            } else {
+                private = "[ ]"
+            }
+
+            clog.InfoF("{{ %s | grey }}  {{ %s/%s | blue }}", private, repo.Owner.Login, repo.Name)
         }
     },
 }
 
-func getAccount(args []string) string {
+func Account() string {
     configuration := cfg.Configuration()
+    accounts := configuration.GitHub
+    keys := slice_utils.Keys(accounts)
 
-    var account string
-    if len(args) > 0 {
-        account = args[0]
-    } else if len(configuration.GitHub) > 0 {
-        var owners []string
-        for name, _ := range configuration.GitHub {
-            owners = append(owners, name)
-        }
-        if len(owners) > 0 {
-            _, account = cobra_util.PromptSelect("Please select account", owners)
-        }
+    if len(accounts) == 0 {
+        clog.Error("No accounts configured")
+        os.Exit(1)
+    } else if len(accounts) == 1 {
+        return keys[0]
     }
 
-    if account == "" {
-        account = cobra_util.PromptString("Please select account", true)
+    prompt := promptui.Select{
+        Label:        "Account",
+        Items:        keys,
+        HideHelp:     true,
+        HideSelected: true,
+        Templates: &promptui.SelectTemplates{
+            Label:    "{{ . }}",
+            Active:   "{{ . | green }}",
+            Inactive: "  {{ . }}",
+            Details:  "",
+            Help:     "",
+        },
+        Stdout: cobra_util.NoBellStdout,
     }
 
-    return account
-}
-
-func getRepoUrl(owner string) string {
-    configuration := cfg.Configuration()
-    if _, ok := configuration.GitHub[owner]; ok {
-        return fmt.Sprintf("https://api.github.com/orgs/%s/repos", owner)
-    }
-
-    return fmt.Sprintf("https://api.github.com/orgs/%s/repos", owner)
-}
-
-func getToken(owner string) string {
-    configuration := cfg.Configuration()
-    if val, ok := configuration.GitHub[owner]; ok {
-        return val.Token
-    }
-
-    return os.Getenv("GITHUB_TOKEN")
-}
-
-func getRepositories(owner string) []RepoResponse {
-
-    client := &http.Client{}
-    url := getRepoUrl(owner)
-    req, _ := http.NewRequest("GET", url, nil)
-
-    token := getToken(owner)
-    if token != "" {
-        auth := fmt.Sprintf("Bearer %s", token)
-        req.Header.Set("Authorization", auth)
-    }
-
-    res, _ := client.Do(req)
-    responseBody, _ := io.ReadAll(res.Body)
-
-    var repoResponse []RepoResponse
-    err := json.Unmarshal(responseBody, &repoResponse)
+    run, _, err := prompt.Run()
     xerr.ExitIfError(err)
 
-    return repoResponse
+    clog.InfoF("Selected account: %s", keys[run])
+    return keys[run]
 }

@@ -17,7 +17,6 @@ func Scan(directory string) {
         go scanSubdirectories(&wg, directory)
     }
     wg.Wait()
-    cfg.Configuration().Save()
 }
 
 func scanSubdirectories(wg *sync.WaitGroup, path string) {
@@ -52,5 +51,4 @@ func VerifyPaths() {
             config.DeleteTerraform(path)
         }
     }
-    config.Save()
 }

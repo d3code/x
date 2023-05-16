@@ -47,10 +47,7 @@ var cloneCmd = &cobra.Command{
         git.GitignoreCreate(directory)
 
         remote, _ := git.Remote(directory)
-
-        configuration := cfg.Configuration()
-        configuration.AddGitDirectory(directory, cfg.Git{Remote: remote})
-        configuration.Save()
+        cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
     },
 }
 

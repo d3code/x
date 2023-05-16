@@ -47,14 +47,14 @@ func init() {
 }
 
 type Config struct {
-    GitHub      map[string]GitHub    `json:"github"`
-    Git         map[string]Git       `json:"git"`
-    Golang      map[string]Golang    `json:"go"`
-    Terraform   map[string]Terraform `json:"terraform"`
-    Angular     map[string]Angular   `json:"angular"`
-    Docker      map[string]Docker    `json:"docker"`
-    Environment struct {
-    } `json:"environment"`
+    Git       map[string]Git       `json:"git"`
+    GitHub    map[string]GitHub    `json:"github"`
+    Golang    map[string]Golang    `json:"go"`
+    Terraform map[string]Terraform `json:"terraform"`
+    Angular   map[string]Angular   `json:"angular"`
+    Docker    map[string]Docker    `json:"docker"`
+
+    Environment map[string]string `json:"environment"`
 }
 
 type Git struct {
