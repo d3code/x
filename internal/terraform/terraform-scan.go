@@ -1,8 +1,8 @@
-package golang
+package terraform
 
 import (
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/pkg/cfg"
+    "github.com/d3code/x/internal/cfg"
     "os"
     "strings"
     "sync"
@@ -10,10 +10,8 @@ import (
 
 func Scan(directory string) {
     var wg sync.WaitGroup
-    if name := Go(directory); name != "" {
-        cfg.Configuration().AddGolang(directory, cfg.Golang{
-            Name: name,
-        })
+    if Terraform(directory) {
+        cfg.Configuration().AddTerraform(directory, cfg.Terraform{})
     } else {
         wg.Add(1)
         go scanSubdirectories(&wg, directory)
@@ -22,9 +20,10 @@ func Scan(directory string) {
 }
 
 func scanSubdirectories(wg *sync.WaitGroup, path string) {
-    files, _ := os.ReadDir(path)
+    defer wg.Done()
     home := shell.UserHomeDirectory()
 
+    files, _ := os.ReadDir(path)
     for _, file := range files {
         var directory string
         if strings.HasSuffix(path, "/") {
@@ -32,27 +31,24 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
         } else {
             directory = path + "/" + file.Name()
         }
-        if name := Go(directory); name != "" {
-            cfg.Configuration().AddGolang(directory, cfg.Golang{
-                Name: name,
-            })
-        } else if file.IsDir() &&
+        if Terraform(directory) {
+            cfg.Configuration().AddTerraform(directory, cfg.Terraform{})
+        }
+        if file.IsDir() &&
             !strings.HasPrefix(directory, home+"/Library/") &&
-            !strings.HasPrefix(directory, home+"/go/") &&
-            !strings.Contains(directory, "/.git/") {
-
+            !strings.Contains(directory, "/.git/") &&
+            !strings.Contains(directory, "/.terraform/modules/") {
             wg.Add(1)
             go scanSubdirectories(wg, directory)
         }
     }
-    wg.Done()
 }
 
 func VerifyPaths() {
     config := cfg.Configuration()
-    for path, _ := range config.Golang {
-        if name := Go(path); name == "" {
-            config.DeleteGolang(path)
+    for path := range config.Terraform {
+        if !Terraform(path) {
+            config.DeleteTerraform(path)
         }
     }
 }

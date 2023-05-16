@@ -1,10 +1,9 @@
 package github_repo_c
 
 import (
-    "github.com/d3code/clog"
     "github.com/d3code/pkg/xerr"
-    "github.com/d3code/x/pkg/cobra_util"
-    "github.com/d3code/x/pkg/github"
+    "github.com/d3code/x/internal/github"
+    "github.com/d3code/x/internal/input"
     "github.com/manifoldco/promptui"
     "github.com/spf13/cobra"
     "sort"
@@ -31,10 +30,11 @@ var Task = &cobra.Command{
 
 func Repo(repos []github.RepoResponse) github.RepoResponse {
     prompt := promptui.Select{
-        Label:        "Select repository",
-        Items:        repos,
-        HideHelp:     true,
-        HideSelected: true,
+        Label:             "Select repository",
+        Items:             repos,
+        HideHelp:          true,
+        HideSelected:      true,
+        StartInSearchMode: true,
         Templates: &promptui.SelectTemplates{
             Label:    "  {{ .FullName }}",
             Active:   "  {{ .FullName | green }}",
@@ -50,14 +50,11 @@ func Repo(repos []github.RepoResponse) github.RepoResponse {
             }
             return strings.Contains(name, input)
         },
-        Stdout: cobra_util.NoBellStdout,
+        Stdout: input.NoBellStdout,
     }
 
     run, _, err := prompt.Run()
     xerr.ExitIfError(err)
 
-    response := repos[run]
-    clog.InfoF("Selected repo: {{ %s | blue }}", response.Name)
-
-    return response
+    return repos[run]
 }

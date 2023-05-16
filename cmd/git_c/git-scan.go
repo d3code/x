@@ -3,7 +3,7 @@ package git_c
 import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/pkg/git"
+    "github.com/d3code/x/internal/git"
     "github.com/spf13/cobra"
 )
 

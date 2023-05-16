@@ -5,8 +5,8 @@ import (
     "os"
 
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/pkg/cobra_util"
-    "github.com/d3code/x/pkg/git"
+    "github.com/d3code/x/internal/git"
+    "github.com/d3code/x/internal/input"
     "github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ var squashCmd = &cobra.Command{
         shell.RunShell(true, "git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')")
 
         // Push
-        if cobra_util.PromptConfirm("Force push changes to remote?") {
+        if input.PromptConfirm("Force push changes to remote?") {
             shell.RunCmd(".", true, "git", "push", "-f")
             cmd.Println("Pushed to remote")
         }

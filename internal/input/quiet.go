@@ -1,4 +1,4 @@
-package cobra_util
+package input
 
 import "github.com/chzyer/readline"
 

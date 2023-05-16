@@ -1,8 +1,8 @@
-package terraform
+package golang
 
 import (
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/pkg/cfg"
+    "github.com/d3code/x/internal/cfg"
     "os"
     "strings"
     "sync"
@@ -10,8 +10,10 @@ import (
 
 func Scan(directory string) {
     var wg sync.WaitGroup
-    if Terraform(directory) {
-        cfg.Configuration().AddTerraform(directory, cfg.Terraform{})
+    if name := Go(directory); name != "" {
+        cfg.Configuration().AddGolang(directory, cfg.Golang{
+            Name: name,
+        })
     } else {
         wg.Add(1)
         go scanSubdirectories(&wg, directory)
@@ -20,10 +22,9 @@ func Scan(directory string) {
 }
 
 func scanSubdirectories(wg *sync.WaitGroup, path string) {
-    defer wg.Done()
+    files, _ := os.ReadDir(path)
     home := shell.UserHomeDirectory()
 
-    files, _ := os.ReadDir(path)
     for _, file := range files {
         var directory string
         if strings.HasSuffix(path, "/") {
@@ -31,24 +32,27 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
         } else {
             directory = path + "/" + file.Name()
         }
-        if Terraform(directory) {
-            cfg.Configuration().AddTerraform(directory, cfg.Terraform{})
-        }
-        if file.IsDir() &&
+        if name := Go(directory); name != "" {
+            cfg.Configuration().AddGolang(directory, cfg.Golang{
+                Name: name,
+            })
+        } else if file.IsDir() &&
             !strings.HasPrefix(directory, home+"/Library/") &&
-            !strings.Contains(directory, "/.git/") &&
-            !strings.Contains(directory, "/.terraform/modules/") {
+            !strings.HasPrefix(directory, home+"/go/") &&
+            !strings.Contains(directory, "/.git/") {
+
             wg.Add(1)
             go scanSubdirectories(wg, directory)
         }
     }
+    wg.Done()
 }
 
 func VerifyPaths() {
     config := cfg.Configuration()
-    for path := range config.Terraform {
-        if !Terraform(path) {
-            config.DeleteTerraform(path)
+    for path, _ := range config.Golang {
+        if name := Go(path); name == "" {
+            config.DeleteGolang(path)
         }
     }
 }

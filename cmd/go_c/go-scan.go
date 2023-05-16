@@ -3,7 +3,7 @@ package go_c
 import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/pkg/golang"
+    "github.com/d3code/x/internal/golang"
     "github.com/spf13/cobra"
 )
 

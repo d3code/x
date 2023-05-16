@@ -4,9 +4,9 @@ import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/pkg/xerr"
-    "github.com/d3code/x/pkg/cfg"
-    "github.com/d3code/x/pkg/cobra_util"
-    "github.com/d3code/x/pkg/github"
+    "github.com/d3code/x/internal/cfg"
+    "github.com/d3code/x/internal/github"
+    "github.com/d3code/x/internal/input"
     "github.com/manifoldco/promptui"
     "github.com/spf13/cobra"
     "os"
@@ -63,7 +63,7 @@ func Account() string {
             Details:  "",
             Help:     "",
         },
-        Stdout: cobra_util.NoBellStdout,
+        Stdout: input.NoBellStdout,
     }
 
     run, _, err := prompt.Run()

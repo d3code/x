@@ -1,7 +1,7 @@
 package git
 
 import (
-    "github.com/d3code/x/pkg/cfg"
+    "github.com/d3code/x/internal/cfg"
     "os"
     "strings"
     "sync"

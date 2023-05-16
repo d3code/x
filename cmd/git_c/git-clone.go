@@ -3,9 +3,9 @@ package git_c
 import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
-    "github.com/d3code/x/pkg/cfg"
-    "github.com/d3code/x/pkg/cobra_util"
-    "github.com/d3code/x/pkg/git"
+    "github.com/d3code/x/internal/cfg"
+    "github.com/d3code/x/internal/git"
+    "github.com/d3code/x/internal/input"
     "github.com/spf13/cobra"
     "regexp"
 )
@@ -27,7 +27,7 @@ var cloneCmd = &cobra.Command{
         if len(args) > 0 {
             repository = args[0]
         } else {
-            repository = cobra_util.PromptString("Repository to clone", true)
+            repository = input.PromptString("Repository to clone", true)
         }
 
         url := git.FormatRepositoryUrl(repository)
