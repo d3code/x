@@ -9,7 +9,19 @@ import (
     "strings"
 )
 
-var commitMessages = []string{"🚀 Updated", "🚧 Work in progress", "✨ Made some changes", "📝 Refactored code"}
+var commitMessages = []string{
+    "Made some changes",
+    "put code that worked where the code that didn't used to be",
+    "lots of changes after a lot of time",
+    "Refactored code",
+    "Misc. fixes",
+    "I'll explain this when I'm sober .. or revert it",
+    "That last commit message about silly mistakes pales in comparision to this one",
+    "Work in progress",
+    "derp, helper method rename",
+    "Another bug bites the dust",
+    "rats",
+}
 
 func StageCommitFetchPullPush(path string, commitMessage string) {
     path = shell.FullPath(path)
