@@ -1,8 +1,12 @@
-# xCLI
+# x: A CLI for your development environment
 
-xCLI is a command line interface for various functinos and sensible defaults for your development environment.
+![Workflow](https://github.com/d3code/x/actions/workflows/run-tests.yaml/badge.svg)
 
-#### Usage
+xCLI is a command line interface for various functions and sensible defaults for your development environment.
+
+
+
+## Usage
 
 ```bash
 $ x --help
