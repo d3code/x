@@ -69,6 +69,7 @@ func UpdateGo(directory string) {
     for _, module := range modules {
         for path, golang := range configuration.Golang {
             if golang.Name == module {
+                clog.InfoF("Updating dependent project {{ %s | blue }}", golang.Name)
                 git.StageCommitFetchPullPush(path, "")
                 commit := shell.RunShell(false, "(cd "+path+";git rev-parse HEAD 2>/dev/null)")
                 dependencyVersions[golang.Name] = commit.Stdout
