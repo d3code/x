@@ -27,24 +27,24 @@ var Update = &cobra.Command{
             configuration := cfg.Configuration()
             for path, _ := range configuration.Golang {
                 clog.Underline("Updating", path)
-                update(path)
+                UpdateGo(path)
             }
         } else {
             path := shell.CurrentDirectory()
-            update(path)
+            UpdateGo(path)
         }
     },
 }
 
-func update(directory string) {
-    clog.Info("{{Updating go project...|green}}")
-
-    pro, err := shell.RunCmdE(directory, false, "go", "list", "-m")
+func UpdateGo(directory string) {
+    project, err := shell.RunCmdE(directory, false, "go", "list", "-m")
     if err != nil {
         clog.Warn("No go project found")
         return
     }
-    list := strings.Split(pro.Stdout, "\n")
+
+    clog.InfoF("Updating {{ go | green }} project {{ %s | blue }}", directory)
+    list := strings.Split(project.Stdout, "\n")
 
     graph := shell.RunCmd(directory, false, "go", "mod", "graph")
     lines := strings.Split(graph.Stdout, "\n")
@@ -69,10 +69,7 @@ func update(directory string) {
     for _, module := range modules {
         for path, golang := range configuration.Golang {
             if golang.Name == module {
-
-                message := "Update " + golang.Name
-                git.StageCommitFetchPullPush(path, message)
-
+                git.StageCommitFetchPullPush(path, "")
                 commit := shell.RunShell(false, "(cd "+path+";git rev-parse HEAD 2>/dev/null)")
                 dependencyVersions[golang.Name] = commit.Stdout
             }

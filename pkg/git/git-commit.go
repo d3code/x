@@ -10,16 +10,20 @@ import (
 )
 
 var commitMessages = []string{
-    "🚀 Updated",
+    "🚀 Updated some stuff",
     "Work in progress 🚧",
+    "No changes after this point.",
     "✨ Made some changes",
+    "The universe is possible",
     "put code that worked where the code that didn't used to be 🫠",
     "lots of changes after a lot of time",
     "Misc. fixes",
+    "They came from... Behind",
     "I'll explain this when I'm sober... or revert it 🍺",
     "That last commit message about silly mistakes pales in comparision to this one",
     "derp",
     "Another bug bites the dust",
+    "I had a cup of tea and now it's fixed",
     "rats",
 }
 

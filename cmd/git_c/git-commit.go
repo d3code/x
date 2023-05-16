@@ -4,6 +4,7 @@ import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
+    "github.com/d3code/x/cmd/go_c"
     "github.com/d3code/x/pkg/cfg"
     "github.com/d3code/x/pkg/git"
     "github.com/spf13/cobra"
@@ -46,9 +47,9 @@ var commitCmd = &cobra.Command{
 func UpdateGoProject(updatePath string) {
 
     configuration := cfg.Configuration()
-    for path, golang := range configuration.Golang {
+    for path, _ := range configuration.Golang {
         if strings.HasPrefix(updatePath, path) {
-            clog.InfoF("Updating %v", golang)
+            go_c.UpdateGo(path)
         }
     }
 }
