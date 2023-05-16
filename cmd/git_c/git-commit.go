@@ -13,7 +13,7 @@ import (
 
 func init() {
     Git.AddCommand(commitCmd)
-    commitCmd.Flags().BoolP("all", "a", false, "commit all repositories")
+    commitCmd.Flags().BoolP("all", "a", false, "commit all local cloned repositories")
 }
 
 var commitCmd = &cobra.Command{

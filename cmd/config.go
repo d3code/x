@@ -7,11 +7,11 @@ import (
 )
 
 func init() {
-    RootCmd.AddCommand(setup)
+    RootCmd.AddCommand(config)
 }
 
-var setup = &cobra.Command{
-    Use: "setup",
+var config = &cobra.Command{
+    Use: "config",
     Run: func(cmd *cobra.Command, args []string) {
 
         git := shell.Installed("git")
