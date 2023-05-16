@@ -10,8 +10,8 @@ github.com/chzyer/test v1.0.0/go.mod h1:2JlltgoNkt4TW/z9V/IzDdFaMTM2JPIi26O1pF38
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/d3code/clog v0.0.0-20230516113731-01d420d48fe2 h1:PujIisgKwie5PCtOEGMOtZs16AdmfUEb38N49oaYSJY=
 github.com/d3code/clog v0.0.0-20230516113731-01d420d48fe2/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/pkg v0.0.0-20230516112528-9fab6c6c445d h1:96Is0wAKVKbTJKJgH5EQXXg3EwiXcWOcZkxFW2IZstE=
-github.com/d3code/pkg v0.0.0-20230516112528-9fab6c6c445d/go.mod h1:/QmeHftriQT0jI4oLcqBg1/k+66wi8jeE2PoS/OQnc0=
+github.com/d3code/pkg v0.0.0-20230516170706-56981df7edf5 h1:DihRvIvPgvnbPGvSfE3ob/BYX5Yk3+tfsIkbPhyyjLw=
+github.com/d3code/pkg v0.0.0-20230516170706-56981df7edf5/go.mod h1:/QmeHftriQT0jI4oLcqBg1/k+66wi8jeE2PoS/OQnc0=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
