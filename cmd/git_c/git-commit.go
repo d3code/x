@@ -22,14 +22,16 @@ var commitCmd = &cobra.Command{
         all, err := cmd.Flags().GetBool("all")
         xerr.ExitIfError(err)
 
-        configuration := cfg.Configuration()
-
         var commitMessage string
-        if len(args) == 1 {
+        if len(args) > 0 {
+            if len(args) > 1 {
+                clog.Warn("Too many arguments, only the first one will be used for the commit message [", args[0], "]")
+            }
             commitMessage = args[0]
         }
 
         if all {
+            configuration := cfg.Configuration()
             for path := range configuration.Git {
                 clog.UnderlineF("Checking {{ %s | blue }}", path)
                 git.StageCommitFetchPullPush(path, commitMessage)

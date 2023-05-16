@@ -21,11 +21,11 @@ const (
 var Root = &cobra.Command{
     Use: "repo",
     Run: func(cmd *cobra.Command, args []string) {
-        account := Account()
+        account := github.Account()
         repositories := github.Repositories(account)
         sort.Sort(github.RepositoryList(repositories))
 
-        repo := Repo(repositories)
+        repo := github.Repo(repositories)
 
         clog.InfoL(
             "{{ Repository | grey }} "+repo.FullName,

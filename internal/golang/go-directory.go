@@ -12,5 +12,5 @@ func Go(directory string) string {
     }
 
     out := shell.RunCmd(path, false, "go", "list", "-m")
-    return out.Stdout
+    return out.Out
 }

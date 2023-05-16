@@ -16,7 +16,6 @@ func init() {
 
 var cloneCmd = &cobra.Command{
     Use: "clone",
-
     Run: func(cmd *cobra.Command, args []string) {
         if git.Git(".") {
             clog.Error("Current directory is already a git repository")
@@ -33,17 +32,14 @@ var cloneCmd = &cobra.Command{
         url := git.FormatRepositoryUrl(repository)
         e := shell.RunCmd(".", false, "git", "clone", url)
 
-        directory := clonedDirectory(e.Stderr)
+        directory := clonedDirectory(e.Err)
         if len(directory) == 0 {
-            clog.Info(e.Stdout)
-            clog.Info(e.Stderr)
+            clog.InfoL(e.Out, e.Err)
             clog.Warn("Could not determine cloned directory")
             return
         }
 
-        directory = shell.FullPath(directory)
         clog.Info("Cloned into {{ " + directory + " | blue }}")
-
         git.GitignoreCreate(directory)
 
         remote, _ := git.Remote(directory)
@@ -56,7 +52,7 @@ func clonedDirectory(message string) string {
     matches := re.FindAllStringSubmatch(message, -1)
 
     if len(matches) == 1 && len(matches[0]) == 2 {
-        return matches[0][1]
+        return shell.FullPath(matches[0][1])
     }
 
     return ""

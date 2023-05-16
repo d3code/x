@@ -44,10 +44,10 @@ func UpdateGo(directory string) {
         return
     }
 
-    list := strings.Split(project.Stdout, "\n")
+    list := strings.Split(project.Out, "\n")
 
     graph := shell.RunCmd(directory, false, "go", "mod", "graph")
-    lines := strings.Split(graph.Stdout, "\n")
+    lines := strings.Split(graph.Out, "\n")
 
     var modules []string
     for _, line := range lines {
@@ -73,7 +73,7 @@ func UpdateGo(directory string) {
                 git.StageCommitFetchPullPush(path, "")
 
                 commit := shell.RunShell(false, "(cd "+path+";git rev-parse HEAD 2>/dev/null)")
-                dependencyVersions[golang.Name] = commit.Stdout
+                dependencyVersions[golang.Name] = commit.Out
 
                 fmt.Println()
             }

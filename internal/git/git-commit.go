@@ -50,7 +50,7 @@ func StageCommitFetchPullPush(path string, commitMessage string) {
 
 func Commit(path string, commitMessage string) bool {
     status := shell.RunCmd(path, false, "git", "status", "--porcelain")
-    if len(status.Stdout) == 0 {
+    if len(status.Out) == 0 {
         clog.Debug("Nothing to commit")
         return false
     }
@@ -67,26 +67,26 @@ func Commit(path string, commitMessage string) bool {
 func Pull(path string) {
     e, err := shell.RunCmdE(path, false, "git", "pull", "--ff-only")
 
-    if strings.Contains(e.Stderr, "no such ref was fetched") {
+    if strings.Contains(e.Err, "no such ref was fetched") {
         clog.Debug("Branch does not exist on remote")
     } else if err != nil {
-        clog.Error(e.Stderr)
+        clog.Error(e.Err)
         os.Exit(1)
     }
 }
 
 func Push(path string) {
     branch := shell.RunCmd(path, false, "git", "branch", "--show-current")
-    shell.RunCmd(path, true, "git", "push", "-u", "origin", branch.Stdout)
+    shell.RunCmd(path, true, "git", "push", "-u", "origin", branch.Out)
 }
 
 func Stage(path string) (bool, string) {
     status := shell.RunCmd(path, false, "git", "status", "--porcelain")
-    if len(status.Stdout) == 0 {
+    if len(status.Out) == 0 {
         clog.Debug("No unstaged changes")
-        return false, status.Stdout
+        return false, status.Out
     }
 
     shell.RunCmd(path, false, "git", "add", ".")
-    return true, status.Stdout
+    return true, status.Out
 }
