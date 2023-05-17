@@ -7,6 +7,7 @@ import (
     "github.com/d3code/x/internal/git"
     "github.com/d3code/x/internal/input"
     "github.com/spf13/cobra"
+    "os"
     "regexp"
 )
 
@@ -15,7 +16,8 @@ func init() {
 }
 
 var cloneCmd = &cobra.Command{
-    Use: "clone",
+    Use:   "clone",
+    Short: "Clone a git repository",
     Run: func(cmd *cobra.Command, args []string) {
         if git.Git(".") {
             clog.Error("Current directory is already a git repository")
@@ -33,11 +35,6 @@ var cloneCmd = &cobra.Command{
         e := shell.RunCmd(".", false, "git", "clone", url)
 
         directory := clonedDirectory(e.Err)
-        if len(directory) == 0 {
-            clog.InfoL(e.Out, e.Err)
-            clog.Warn("Could not determine cloned directory")
-            return
-        }
 
         clog.Info("Cloned into {{ " + directory + " | blue }}")
         git.GitignoreCreate(directory)
@@ -54,6 +51,10 @@ func clonedDirectory(message string) string {
     if len(matches) == 1 && len(matches[0]) == 2 {
         return shell.FullPath(matches[0][1])
     }
+
+    clog.Info(message)
+    clog.Error("Could not determine cloned directory")
+    os.Exit(1)
 
     return ""
 }

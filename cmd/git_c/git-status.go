@@ -13,7 +13,8 @@ func init() {
 }
 
 var gitStatus = &cobra.Command{
-    Use: "status",
+    Use:   "status",
+    Short: "Show the working tree status",
     PersistentPreRun: func(cmd *cobra.Command, args []string) {
         shell.Installed("git")
     },

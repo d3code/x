@@ -11,12 +11,12 @@ import (
 )
 
 func init() {
-
     Git.AddCommand(squashCmd)
 }
 
 var squashCmd = &cobra.Command{
-    Use: "squash",
+    Use:   "squash",
+    Short: "Squash all commits into one",
     PreRun: func(cmd *cobra.Command, args []string) {
         if !git.Git(".") {
             clog.Info("{{ERROR|red}} Current directory is not a git repository")

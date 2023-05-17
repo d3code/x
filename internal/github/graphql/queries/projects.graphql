@@ -1,0 +1,41 @@
+query ($org: String!) {
+    organization(login: $org) {
+        projectsV2(first: 10) {
+            nodes {
+                id
+                title
+                repositories(last: 40) {
+                    nodes {
+                        name
+                        url
+                        issues (first: 20, states: OPEN, orderBy: {field: CREATED_AT, direction: DESC}) {
+                            nodes {
+                                id
+                                title
+                                body
+                                createdAt
+                                updatedAt
+                                state
+                                stateReason
+                                assignees (last: 2) {
+                                    nodes {
+                                        name
+                                        login
+                                    }
+                                }
+                                milestone {
+                                    title
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            totalCount
+            pageInfo {
+                hasNextPage
+                hasPreviousPage
+            }
+        }
+    }
+}

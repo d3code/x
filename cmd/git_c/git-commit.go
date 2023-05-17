@@ -17,7 +17,8 @@ func init() {
 }
 
 var commitCmd = &cobra.Command{
-    Use: "commit",
+    Use:   "commit",
+    Short: "Stage, commit, fetch, pull and push changes to a git repository",
     Run: func(cmd *cobra.Command, args []string) {
         all, err := cmd.Flags().GetBool("all")
         xerr.ExitIfError(err)
