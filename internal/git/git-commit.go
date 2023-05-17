@@ -14,14 +14,10 @@ var commitMessages = []string{
     "Work in progress",
     "Made some changes",
     "The universe is possible",
-    "put code that worked where the code that didn't used to be",
-    "lots of changes after a lot of time",
+    "Put code that works where the code that didn't used to be",
     "Misc. fixes",
-    "They came from... behind",
     "I'll explain this when I'm sober... or revert it 🍺",
     "That last commit message about silly mistakes pales in comparision to this one",
-    "derp",
-    "rats",
 }
 
 func StageCommitFetchPullPush(path string, commitMessage string) {
