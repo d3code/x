@@ -30,7 +30,7 @@ To unleash the full potential of X, follow these simple steps:
 1. Clone the X repository: `git clone git@github.com:d3code/x.git`
 2. Navigate to the X directory: `cd x`
 3. Install the required dependencies: `go install x`
-4. Run the installation script: `x --help`
+4. Run the interactive setup: `x setup`
 5. Get ready to embrace developer nirvana with X!
 
 ## Usage
