@@ -58,7 +58,10 @@ var Root = &cobra.Command{
             shell.RunCmd(dir, false, "code", ".")
         case openGitHub:
             shell.RunCmd(dir, false, "open", repo.HtmlUrl)
+        case "Clone":
+            shell.RunCmd(".", false, "git", "clone", repo.CloneUrl)
         }
+
     },
 }
 
@@ -66,7 +69,7 @@ func ActionOption(repo github.RepoResponse, localDirectory string) (string, stri
 
     var items []string
     if localDirectory == "" {
-        items = []string{"Details", "Clone", "Exit"}
+        items = []string{"Details", "Clone", openGitHub, "Exit"}
     } else {
         items = []string{"Details", openCode, openGitHub, "Delete", "Update", "Commit", "Exit"}
     }
