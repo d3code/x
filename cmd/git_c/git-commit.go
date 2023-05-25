@@ -35,6 +35,8 @@ var commitCmd = &cobra.Command{
             configuration := cfg.Configuration()
             for path := range configuration.Git {
                 clog.UnderlineF("Checking {{ %s | blue }}", path)
+
+                commitMessage = git.ChatGPT(path)
                 git.StageCommitFetchPullPush(path, commitMessage)
             }
             return
@@ -43,7 +45,7 @@ var commitCmd = &cobra.Command{
         directory := shell.CurrentDirectory()
         UpdateGoProject(directory)
 
-        commitMessage = git.ChatGPT()
+        commitMessage = git.ChatGPT(directory)
         git.StageCommitFetchPullPush(directory, commitMessage)
     },
 }

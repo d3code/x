@@ -12,16 +12,18 @@ import (
     "time"
 )
 
-func ChatGPT() string {
-    status, e := shell.RunCmdE(".", false, "git", "--no-pager", "diff")
+func ChatGPT(path string) string {
+    status, e := shell.RunCmdE(path, false, "git", "--no-pager", "diff")
     xerr.ExitIfError(e)
+
+    clog.Debug(status.Out)
 
     gpt := GPT{
         Model: "gpt-3.5-turbo",
         Messages: []GPTContent{
             {
                 Role:    "user",
-                Content: "What is a good git commit message based on the following changes? If you arent able to determine a commit message, simply reply with a very general commit message such as 'Updating project', but more verbose.\n" + status.Out,
+                Content: "What is a good git commit message based on the following changes? If you arent able to determine a commit message, simply reply with a very general commit message such as 'Update project', but more verbose.\n" + status.Out,
             },
         },
         Temperature: 0.7,

@@ -3,7 +3,6 @@ package util_c
 import (
     _ "embed"
     "github.com/d3code/clog"
-    "github.com/d3code/x/internal/git"
     "io"
     "net/http"
     "time"
@@ -27,9 +26,6 @@ var ipCommand = &cobra.Command{
 
         ip := GetIp()
         clog.Info(ip)
-
-        resp := git.ChatGPT()
-        clog.InfoF(resp)
     },
 }
 

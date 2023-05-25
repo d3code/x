@@ -15,7 +15,7 @@ var GPTCommand = &cobra.Command{
     Use: "gpt",
     Run: func(cmd *cobra.Command, args []string) {
 
-        resp := git.ChatGPT()
+        resp := git.ChatGPT(".")
         clog.InfoF(resp)
     },
 }
