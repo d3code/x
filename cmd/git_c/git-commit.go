@@ -43,6 +43,7 @@ var commitCmd = &cobra.Command{
         directory := shell.CurrentDirectory()
         UpdateGoProject(directory)
 
+        commitMessage = git.ChatGPT()
         git.StageCommitFetchPullPush(directory, commitMessage)
     },
 }

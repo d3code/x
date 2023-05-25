@@ -54,8 +54,6 @@ func Commit(path string, commitMessage string) bool {
     if len(commitMessage) == 0 {
 
         commitMessage = commitMessages[rand.Intn(len(commitMessages))]
-        commitMessage = ChatGPT()
-
         clog.Warn("No commit message provided, using [", commitMessage, "]")
     }
 
