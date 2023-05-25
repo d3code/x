@@ -21,7 +21,7 @@ func ChatGPT() string {
         Messages: []GPTContent{
             {
                 Role:    "user",
-                Content: "What is a good git commit message based on the following changes?\n" + status.Out,
+                Content: "What is a good git commit message based on the following changes? If you arent able to determine a commit message, simply reply with a very general commit message such as 'Updating project', but more verbose.\n" + status.Out,
             },
         },
         Temperature: 0.7,
