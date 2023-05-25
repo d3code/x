@@ -16,7 +16,10 @@ func ChatGPT(path string) string {
     status, e := shell.RunCmdE(path, false, "git", "--no-pager", "diff")
     xerr.ExitIfError(e)
 
-    clog.Info(status.Out)
+    if status.Out == "" {
+        clog.Error("No changes")
+        os.Exit(0)
+    }
 
     gpt := GPT{
         Model: "gpt-3.5-turbo",
