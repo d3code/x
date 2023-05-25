@@ -17,8 +17,8 @@ func ChatGPT(path string) string {
     xerr.ExitIfError(e)
 
     if status.Out == "" {
-        clog.Error("No changes")
-        os.Exit(0)
+        clog.Warn("No changes")
+        return ""
     }
 
     gpt := GPT{
