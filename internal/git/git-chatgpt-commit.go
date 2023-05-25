@@ -16,6 +16,8 @@ func ChatGPT(path string) string {
     status, e := shell.RunCmdE(path, false, "git", "--no-pager", "diff")
     xerr.ExitIfError(e)
 
+    clog.Info(status.Out)
+
     gpt := GPT{
         Model: "gpt-3.5-turbo",
         Messages: []GPTContent{
@@ -54,6 +56,7 @@ func ChatGPT(path string) string {
 
     content := gptResponse.Choices[0].Message.Content
     clog.InfoF("{{ %s | grey }} {{ %s | blue }}", "[commit message]", content)
+
     return content
 }
 
