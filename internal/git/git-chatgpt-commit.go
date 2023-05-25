@@ -57,6 +57,11 @@ func ChatGPT(path string) string {
         clog.Error(resErr.Error())
     }
 
+    if len(gptResponse.Choices) == 0 {
+        clog.Warn("No response from GPT")
+        return ""
+    }
+
     content := gptResponse.Choices[0].Message.Content
     clog.InfoF("{{ %s | grey }} {{ %s | blue }}", "[commit message]", content)
 
