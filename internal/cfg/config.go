@@ -1,72 +1,58 @@
 package cfg
 
 import (
-    "encoding/json"
+    "bytes"
     "fmt"
+    "github.com/d3code/clog"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/xerr"
+    "gopkg.in/yaml.v3"
     "os"
     "sync"
 )
 
-var localConfig *Config
-var mapMutex sync.RWMutex
+var (
+    localConfig *Config
+    mapMutex    sync.RWMutex
+
+    configFilePath = fmt.Sprintf("%s/config.yaml", ConfigPath())
+)
 
 func init() {
 
-    config := fmt.Sprintf("%s/config.json", configurationPath())
-    if !files.Exist(config) {
-        err := files.Save(configurationPath(), "config.json", []byte("{}"), true)
-        xerr.ExitIfError(err)
+    if !files.Exist(configFilePath) {
+        localConfig = &Config{}
+        localConfig.Save()
     }
-
-    indexByteArray, err := os.ReadFile(config)
+    indexByteArray, err := os.ReadFile(configFilePath)
     xerr.ExitIfError(err)
 
-    err = json.Unmarshal(indexByteArray, &localConfig)
+    err = yaml.Unmarshal(indexByteArray, &localConfig)
     xerr.ExitIfError(err)
 
-    if localConfig.GitHub == nil {
-        localConfig.GitHub = make(map[string]GitHub)
-    }
-    if localConfig.Git == nil {
-        localConfig.Git = make(map[string]Git)
-    }
-    if localConfig.Golang == nil {
-        localConfig.Golang = make(map[string]Golang)
-    }
-    if localConfig.Terraform == nil {
-        localConfig.Terraform = make(map[string]Terraform)
-    }
-    if localConfig.Angular == nil {
-        localConfig.Angular = make(map[string]Angular)
-    }
-    if localConfig.Docker == nil {
-        localConfig.Docker = make(map[string]Docker)
-    }
+    localConfig.Save()
 }
 
 type Config struct {
-    Git       map[string]Git       `json:"git"`
-    GitHub    map[string]GitHub    `json:"github"`
-    Golang    map[string]Golang    `json:"go"`
-    Terraform map[string]Terraform `json:"terraform"`
-    Angular   map[string]Angular   `json:"angular"`
-    Docker    map[string]Docker    `json:"docker"`
-
-    Environment map[string]string `json:"environment"`
+    Git         map[string]Git       `yaml:"git"`
+    GitHub      map[string]GitHub    `yaml:"github"`
+    Golang      map[string]Golang    `yaml:"go"`
+    Terraform   map[string]Terraform `yaml:"terraform"`
+    Angular     map[string]Angular   `yaml:"angular"`
+    Docker      map[string]Docker    `yaml:"docker"`
+    Environment map[string]string    `yaml:"environment"`
 }
 
 type Git struct {
-    Remote string `json:"remote"`
+    Remote string `yaml:"remote"`
 }
 
 type GitHub struct {
-    Token string `json:"token"`
+    Token string `yaml:"token"`
 }
 
 type Golang struct {
-    Name string `json:"name"`
+    Name string `yaml:"name"`
 }
 
 type Terraform struct {
@@ -78,7 +64,7 @@ type Angular struct {
 type Docker struct {
 }
 
-func configurationPath() string {
+func ConfigPath() string {
     dir, err := os.UserHomeDir()
     xerr.ExitIfError(err)
 
@@ -89,4 +75,21 @@ func configurationPath() string {
     }
 
     return dir
+}
+func Configuration() *Config {
+    return localConfig
+}
+
+func (c *Config) Save() {
+    var buffer bytes.Buffer
+    yamlEncoder := yaml.NewEncoder(&buffer)
+    yamlEncoder.SetIndent(4)
+
+    err := yamlEncoder.Encode(c)
+    xerr.ExitIfError(err)
+
+    err = os.WriteFile(configFilePath, buffer.Bytes(), 0666)
+    xerr.ExitIfError(err)
+
+    clog.Debug("Saved configuration")
 }

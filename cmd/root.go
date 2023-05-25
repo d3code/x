@@ -3,7 +3,6 @@ package cmd
 import (
     _ "embed"
     "github.com/d3code/clog"
-
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/cmd/git_c"
     "github.com/d3code/x/cmd/github_c"
@@ -24,6 +23,7 @@ func init() {
     RootCmd.AddCommand(terraform_c.Terraform)
 
     RootCmd.PersistentFlags().BoolP("verbose", "v", false, "show additional information about command execution")
+
     cobra.OnInitialize(func() {
         if verbose, err := RootCmd.PersistentFlags().GetBool("verbose"); err == nil {
             clog.ShowDebugLogs = verbose

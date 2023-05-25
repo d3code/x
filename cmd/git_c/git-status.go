@@ -25,5 +25,10 @@ var gitStatus = &cobra.Command{
 
         err := command.Run()
         xerr.ExitIfError(err)
+
     },
+}
+
+func ChatGPT() {
+
 }

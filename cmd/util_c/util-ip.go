@@ -2,6 +2,8 @@ package util_c
 
 import (
     _ "embed"
+    "github.com/d3code/clog"
+    "github.com/d3code/x/internal/git"
     "io"
     "net/http"
     "time"
@@ -15,7 +17,6 @@ var ipHelp string
 
 func init() {
     Util.AddCommand(ipCommand)
-    ipCommand.Flags().BoolP("verbose", "v", false, "verbose output showing additional information")
 }
 
 var ipCommand = &cobra.Command{
@@ -23,19 +24,28 @@ var ipCommand = &cobra.Command{
     Short: "Public IP address",
     Long:  ipHelp,
     Run: func(cmd *cobra.Command, args []string) {
-        httpRequest, err := http.NewRequest("GET", "https://ipecho.net/plain", nil)
-        xerr.ExitIfError(err)
 
-        httpClient := http.Client{
-            Timeout: 10 * time.Second,
-        }
+        ip := GetIp()
+        clog.Info(ip)
 
-        response, err := httpClient.Do(httpRequest)
-        xerr.ExitIfError(err)
-
-        responseBody, err := io.ReadAll(response.Body)
-        xerr.ExitIfError(err)
-
-        cmd.Println(string(responseBody))
+        resp := git.ChatGPT()
+        clog.InfoF(resp)
     },
+}
+
+func GetIp() string {
+    httpRequest, err := http.NewRequest("GET", "https://ipecho.net/plain", nil)
+    xerr.ExitIfError(err)
+
+    httpClient := http.Client{
+        Timeout: 10 * time.Second,
+    }
+
+    response, err := httpClient.Do(httpRequest)
+    xerr.ExitIfError(err)
+
+    responseBody, err := io.ReadAll(response.Body)
+    xerr.ExitIfError(err)
+
+    return string(responseBody)
 }
