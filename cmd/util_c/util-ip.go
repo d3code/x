@@ -1,47 +1,46 @@
 package util_c
 
 import (
-    _ "embed"
-    "github.com/d3code/clog"
-    "io"
-    "net/http"
-    "time"
+	_ "embed"
+	"io"
+	"net/http"
+	"time"
 
-    "github.com/d3code/pkg/xerr"
-    "github.com/spf13/cobra"
+	"github.com/d3code/clog"
+	"github.com/d3code/x/internal/help"
+
+	"github.com/d3code/pkg/xerr"
+	"github.com/spf13/cobra"
 )
 
-//go:embed util-ip.txt
-var ipHelp string
-
 func init() {
-    Util.AddCommand(ipCommand)
+	Util.AddCommand(ipCommand)
 }
 
 var ipCommand = &cobra.Command{
-    Use:   "ip",
-    Short: "Public IP address",
-    Long:  ipHelp,
-    Run: func(cmd *cobra.Command, args []string) {
+	Use:   "ip",
+	Short: "Public IP address",
+	Long:  help.UtilIp,
+	Run: func(cmd *cobra.Command, args []string) {
 
-        ip := GetIp()
-        clog.Info(ip)
-    },
+		ip := GetIp()
+		clog.Info(ip)
+	},
 }
 
 func GetIp() string {
-    httpRequest, err := http.NewRequest("GET", "https://ipecho.net/plain", nil)
-    xerr.ExitIfError(err)
+	httpRequest, err := http.NewRequest("GET", "https://ipecho.net/plain", nil)
+	xerr.ExitIfError(err)
 
-    httpClient := http.Client{
-        Timeout: 10 * time.Second,
-    }
+	httpClient := http.Client{
+		Timeout: 10 * time.Second,
+	}
 
-    response, err := httpClient.Do(httpRequest)
-    xerr.ExitIfError(err)
+	response, err := httpClient.Do(httpRequest)
+	xerr.ExitIfError(err)
 
-    responseBody, err := io.ReadAll(response.Body)
-    xerr.ExitIfError(err)
+	responseBody, err := io.ReadAll(response.Body)
+	xerr.ExitIfError(err)
 
-    return string(responseBody)
+	return string(responseBody)
 }

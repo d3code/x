@@ -18,7 +18,7 @@ var List = &cobra.Command{
         issues := github.ListIssue()
 
         for _, list := range issues {
-            clog.InfoF("[ %v ] %s", list.Id, list.Title)
+            clog.Infof("[ %v ] %s", list.Id, list.Title)
         }
 
     },

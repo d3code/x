@@ -28,7 +28,7 @@ var List = &cobra.Command{
                 private = "[ ]"
             }
 
-            clog.InfoF("{{ %s | grey }}  {{ %s/%s | blue }}", private, repo.Owner.Login, repo.Name)
+            clog.Infof("{{ %s | grey }}  {{ %s/%s | blue }}", private, repo.Owner.Login, repo.Name)
         }
     },
 }

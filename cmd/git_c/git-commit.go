@@ -7,6 +7,7 @@ import (
     "github.com/d3code/x/cmd/go_c"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/git"
+    "github.com/d3code/x/internal/gpt"
     "github.com/spf13/cobra"
     "strings"
 )
@@ -23,20 +24,12 @@ var commitCmd = &cobra.Command{
         all, err := cmd.Flags().GetBool("all")
         xerr.ExitIfError(err)
 
-        var commitMessage string
-        if len(args) > 0 {
-            if len(args) > 1 {
-                clog.Warn("Too many arguments, only the first one will be used for the commit message [", args[0], "]")
-            }
-            commitMessage = args[0]
-        }
-
         if all {
             configuration := cfg.Configuration()
             for path := range configuration.Git {
                 clog.UnderlineF("Checking {{ %s | blue }}", path)
 
-                commitMessage = git.ChatGPT(path)
+                commitMessage := gpt.GenerateCommitMessage(path)
                 git.StageCommitFetchPullPush(path, commitMessage)
             }
             return
@@ -45,7 +38,7 @@ var commitCmd = &cobra.Command{
         directory := shell.CurrentDirectory()
         UpdateGoProject(directory)
 
-        commitMessage = git.ChatGPT(directory)
+        commitMessage := gpt.GenerateCommitMessage(directory)
         git.StageCommitFetchPullPush(directory, commitMessage)
     },
 }

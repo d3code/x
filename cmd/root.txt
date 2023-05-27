@@ -1,4 +1,0 @@
-xCLI
-
-    A command line tool that automates and simplifies common tasks
-    For more information, visit https://github.com/d3code/x

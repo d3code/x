@@ -21,8 +21,8 @@ var Root = &cobra.Command{
         if configuration.Environment["github_default_clone_directory"] == "" {
             curDir := shell.CurrentDirectory()
             clog.UnderlineF("Set current directory as default clone directory?")
-            clog.InfoL("This will set the current directory as the default clone directory for GitHub repositories.",
-                "This can be changed later in the configuration file.", color.ColorString(curDir, "blue"), "")
+            clog.Infol("This will set the current directory as the default clone directory for GitHub repositories.",
+                "This can be changed later in the configuration file.", color.String(curDir, "blue"), "")
 
             if input.PromptConfirm("Set current directory") {
 

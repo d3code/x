@@ -1,32 +1,43 @@
-package git
+package gpt
 
 import (
     "bytes"
     "encoding/json"
-    "github.com/d3code/clog"
-    "github.com/d3code/pkg/shell"
-    "github.com/d3code/pkg/xerr"
     "io"
     "net/http"
     "os"
     "time"
+
+    "github.com/d3code/clog"
+    "github.com/d3code/pkg/shell"
+    "github.com/d3code/pkg/xerr"
 )
 
-func ChatGPT(path string) string {
-    status, e := shell.RunCmdE(path, false, "git", "--no-pager", "diff")
-    xerr.ExitIfError(e)
-
-    if status.Out == "" {
-        clog.Warn("No changes")
+// GenerateCommitMessage generates a commit message based on the changes (git diff)
+// in the current git repository using the OpenAI GPT-3 API
+func GenerateCommitMessage(path string) string {
+    openApiKey := os.Getenv("OPENAI_API_KEY")
+    if openApiKey == "" {
+        clog.Warn("OPENAI_API_KEY not set")
         return ""
     }
 
-    gpt := GPT{
+    status, e := shell.RunCmdE(path, false, "git", "--no-pager", "diff")
+    xerr.ExitIfError(e)
+    if status.Out == "" {
+        clog.Warn("No changes")
+        return ""
+    } else if len(status.Out) > 4096 {
+        clog.Warn("Too many changes, truncating")
+        status.Out = status.Out[:4096]
+    }
+
+    gpt := GPTRequest{
         Model: "gpt-3.5-turbo",
         Messages: []GPTContent{
             {
                 Role:    "user",
-                Content: "What is a good git commit message based on the following changes? If you arent able to determine a commit message, simply reply with a very general commit message such as 'Update project', but more verbose.\n" + status.Out,
+                Content: "Generate a git commit message based on the following changes. Be brief in the first line then give a detailed description in subsequent lines. If you arent able to determine a commit message, simply reply with a very general commit message such as 'Update project', but more verbose.\n" + status.Out,
             },
         },
         Temperature: 0.7,
@@ -37,7 +48,6 @@ func ChatGPT(path string) string {
     httpRequest, err := http.NewRequest("POST", "https://api.openai.com/v1/chat/completions", bytes.NewReader(body))
     xerr.ExitIfError(err)
 
-    openApiKey := os.Getenv("OPENAI_API_KEY")
     httpRequest.Header.Set("Authorization", "Bearer "+openApiKey)
     httpRequest.Header.Set("Content-Type", "application/json")
 
@@ -58,12 +68,13 @@ func ChatGPT(path string) string {
     }
 
     if len(gptResponse.Choices) == 0 {
-        clog.Warn("No response from GPT")
+        clog.Warn(response.Status)
+        clog.Info(string(responseBody))
         return ""
     }
 
     content := gptResponse.Choices[0].Message.Content
-    clog.InfoF("{{ %s | grey }} {{ %s | blue }}", "[commit message]", content)
+    clog.Infof("{{ %s | blue }}", "[commit message]", content)
 
     return content
 }
@@ -93,7 +104,7 @@ type GPTContent struct {
     Content string `json:"content"`
 }
 
-type GPT struct {
+type GPTRequest struct {
     Model       string       `json:"model"`
     Messages    []GPTContent `json:"messages"`
     Temperature float64      `json:"temperature"`

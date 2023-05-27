@@ -3,19 +3,17 @@ package cmd
 import (
     _ "embed"
     "github.com/d3code/clog"
+    "github.com/d3code/x/internal/help"
     "github.com/spf13/cobra"
 )
 
 func init() {
-    RootCmd.AddCommand(version)
+    Root.AddCommand(Version)
 }
 
-//go:embed version.txt
-var versionString string
-
-var version = &cobra.Command{
+var Version = &cobra.Command{
     Use: "version",
     Run: func(cmd *cobra.Command, args []string) {
-        clog.Info("Version {{" + versionString + "| blue }}")
+        clog.Info("{{" + help.Version + "| blue }}")
     },
 }

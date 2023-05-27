@@ -1,0 +1,5 @@
+This command line utility allows you to quickly and easily retrieve your public facing IP address
+
+This can be useful for a variety of purposes, such as checking your network configuration, troubleshooting connectivity issues, or accessing remote services that require your public IP address
+
+The utility is simple to use and requires no configuration or setup, simply run the utility from the command line and your IP address will be displayed
