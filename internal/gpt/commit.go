@@ -74,7 +74,7 @@ func GenerateCommitMessage(path string) string {
     }
 
     content := gptResponse.Choices[0].Message.Content
-    clog.Infof("{{ %s | blue }}", "[commit message]", content)
+    clog.Infof("{{ %s | blue }}", content)
 
     return content
 }
