@@ -8,10 +8,10 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/chzyer/test v1.0.0 h1:p3BQDXSxOhOG0P9z6/hGnII4LGiEPOYBhs8asl/fC04=
 github.com/chzyer/test v1.0.0/go.mod h1:2JlltgoNkt4TW/z9V/IzDdFaMTM2JPIi26O1pF38GC8=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
-github.com/d3code/clog v0.0.0-20230527005254-5ca41a5b547e h1:TubBypQ7XOH/rMRluu8+wZcTrxSH8S0dN74+GvEOCG4=
-github.com/d3code/clog v0.0.0-20230527005254-5ca41a5b547e/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/pkg v0.0.0-20230519131155-ef369bcd6fe6 h1:mW/AH88AaxP886K2d2MMdx/MB7A4O2xYtszEicdIgso=
-github.com/d3code/pkg v0.0.0-20230519131155-ef369bcd6fe6/go.mod h1:a7goayOUO6HSAj9WQnlQjME/eZPX18ncm+FCdnSWZ3Q=
+github.com/d3code/clog v0.0.0-20230528121427-28f6bd2cbed4 h1:jjqJr6TVikRixvLj21j84jZ5awR3/uvOqdUas+73gyw=
+github.com/d3code/clog v0.0.0-20230528121427-28f6bd2cbed4/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
+github.com/d3code/pkg v0.0.0-20230528121517-cc49780ccf70 h1:zisj2q7mhuwVxlU4CY5xlvC6I9R5twkcNnlnz8IwfeA=
+github.com/d3code/pkg v0.0.0-20230528121517-cc49780ccf70/go.mod h1:a7goayOUO6HSAj9WQnlQjME/eZPX18ncm+FCdnSWZ3Q=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=

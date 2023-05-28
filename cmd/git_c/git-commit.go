@@ -79,8 +79,6 @@ func CommitDirectory(repository string, interactive bool) {
         }
     }
 
-    // check dependencies (go, npm, ...)
-
     git.StageCommitFetchPullPush(repository, commitMessage)
 }
 
