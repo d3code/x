@@ -2,6 +2,7 @@ package cmd
 
 import (
     _ "embed"
+    "github.com/d3code/clog"
     "github.com/d3code/x/internal/gpt"
     "github.com/spf13/cobra"
 )
@@ -13,6 +14,12 @@ func init() {
 var GPT = &cobra.Command{
     Use: "gpt",
     Run: func(cmd *cobra.Command, args []string) {
-        gpt.GenerateCommitMessage(".")
+        msg, changes := gpt.GenerateCommitMessage(".")
+        if !changes {
+            clog.Warn("No changes detected")
+            return
+        }
+
+        clog.Info(msg)
     },
 }

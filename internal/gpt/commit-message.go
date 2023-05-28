@@ -76,7 +76,5 @@ func GenerateCommitMessage(path string) (string, bool) {
     }
 
     content := gptResponse.Choices[0].Message.Content
-    clog.Info(content)
-
     return content, true
 }
