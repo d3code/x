@@ -1,9 +1,10 @@
 package git_c
 
 import (
-    "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var Git = &cobra.Command{
-    Use: "git",
+	Use:     "git",
+	Aliases: []string{"g"},
 }

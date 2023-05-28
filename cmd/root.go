@@ -30,7 +30,6 @@ func init() {
     cobra.OnInitialize(func() {
         if verbose, err := Root.PersistentFlags().GetBool("verbose"); err == nil {
             clog.ShowDebugLogs = verbose
-            clog.Debug("Verbose mode enabled")
         }
     })
 }

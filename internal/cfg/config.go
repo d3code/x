@@ -19,11 +19,11 @@ var (
 )
 
 func init() {
-
     if !files.Exist(configFilePath) {
         localConfig = &Config{}
         localConfig.Save()
     }
+
     indexByteArray, err := os.ReadFile(configFilePath)
     xerr.ExitIfError(err)
 
@@ -39,7 +39,6 @@ type Config struct {
     Golang      map[string]Golang    `yaml:"go"`
     Terraform   map[string]Terraform `yaml:"terraform"`
     Angular     map[string]Angular   `yaml:"angular"`
-    Docker      map[string]Docker    `yaml:"docker"`
     Environment map[string]string    `yaml:"environment"`
 }
 
@@ -52,16 +51,13 @@ type GitHub struct {
 }
 
 type Golang struct {
-    Name string `yaml:"name"`
+    Module string `yaml:"module"`
 }
 
 type Terraform struct {
 }
 
 type Angular struct {
-}
-
-type Docker struct {
 }
 
 func ConfigPath() string {

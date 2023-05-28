@@ -27,14 +27,14 @@ var Root = &cobra.Command{
 
         repo := github.Repo(repositories)
 
-        clog.Infol(
+        clog.InfoL(
             "{{ Repository | grey }} "+repo.FullName,
             "{{ Clone URL | grey }}  "+repo.SshUrl,
             "{{ URL | grey }}        "+repo.HtmlUrl,
         )
 
         if repo.Language != nil {
-            clog.Infof("{{ Language | grey }}   {{ %s | green }}", *repo.Language)
+            clog.InfoF("{{ Language | grey }}   {{ %s | green }}", *repo.Language)
         }
 
         config := cfg.Configuration()
@@ -49,7 +49,7 @@ var Root = &cobra.Command{
         }
 
         if localDirectory != "" {
-            clog.Infof("{{ Local directory | grey }}   {{ %s | green }}", localDirectory)
+            clog.InfoF("{{ Local directory | grey }}   {{ %s | green }}", localDirectory)
         }
 
         action, dir := ActionOption(repo, localDirectory)

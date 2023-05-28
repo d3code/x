@@ -19,7 +19,7 @@ var cloneCmd = &cobra.Command{
     Use:   "clone",
     Short: "Clone a git repository",
     Run: func(cmd *cobra.Command, args []string) {
-        if git.Git(".") {
+        if git.Is(".") {
             clog.Error("Current directory is already a git repository")
             return
         }
@@ -34,7 +34,7 @@ var cloneCmd = &cobra.Command{
         url := git.FormatRepositoryUrl(repository)
         e := shell.RunCmd(".", false, "git", "clone", url)
 
-        directory := clonedDirectory(e.Err)
+        directory := clonedDirectory(e.Stderr)
 
         clog.Info("Cloned into {{ " + directory + " | blue }}")
         git.GitignoreCreate(directory)

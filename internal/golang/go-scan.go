@@ -12,7 +12,7 @@ func Scan(directory string) {
     var wg sync.WaitGroup
     if name := Go(directory); name != "" {
         cfg.Configuration().AddGolang(directory, cfg.Golang{
-            Name: name,
+            Module: name,
         })
     } else {
         wg.Add(1)
@@ -34,7 +34,7 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
         }
         if name := Go(directory); name != "" {
             cfg.Configuration().AddGolang(directory, cfg.Golang{
-                Name: name,
+                Module: name,
             })
         } else if file.IsDir() &&
             !strings.HasPrefix(directory, home+"/Library/") &&

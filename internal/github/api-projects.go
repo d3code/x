@@ -37,7 +37,7 @@ func GetProjects() {
     RequestGraph(jsonResult, "luk3sands", &response)
 
     for _, node := range response.Data.Organization.ProjectsV2.Nodes {
-        clog.Infof("%s: %s", node.ID, node.Title)
+        clog.InfoF("%s: %s", node.ID, node.Title)
     }
 }
 

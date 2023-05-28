@@ -40,6 +40,6 @@ func Account() string {
     run, _, err := prompt.Run()
     xerr.ExitIfError(err)
 
-    clog.Infof("Selected account: %s", keys[run])
+    clog.InfoF("Selected account: %s", keys[run])
     return keys[run]
 }
