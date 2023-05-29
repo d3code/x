@@ -40,18 +40,12 @@ var Commit = &cobra.Command{
 
                 golang.UpdateGo(repository)
                 git.CommitDirectory(repository, interactive)
-            }
 
-            if push {
-                clog.UnderlineF("{{ Pushing changes | green }}")
-
-                for _, repository := range repositories {
-                    err := git.FetchPullPush(repository)
-                    if err != nil {
-                        clog.Error(repository, "\n", err.Error())
-                    } else {
-                        clog.InfoF("Pushed changes to remote for {{ %s | blue }}", repository)
-                    }
+                err := git.FetchPullPush(repository)
+                if err != nil {
+                    clog.Error(repository, "\n", err.Error())
+                } else {
+                    clog.InfoF("Pushed changes to remote for {{ %s | blue }}", repository)
                 }
             }
 
