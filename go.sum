@@ -8,8 +8,8 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/chzyer/test v1.0.0 h1:p3BQDXSxOhOG0P9z6/hGnII4LGiEPOYBhs8asl/fC04=
 github.com/chzyer/test v1.0.0/go.mod h1:2JlltgoNkt4TW/z9V/IzDdFaMTM2JPIi26O1pF38GC8=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
-github.com/d3code/clog v0.0.0-20230528121427-28f6bd2cbed4 h1:jjqJr6TVikRixvLj21j84jZ5awR3/uvOqdUas+73gyw=
-github.com/d3code/clog v0.0.0-20230528121427-28f6bd2cbed4/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
+github.com/d3code/clog v0.0.0-20230529101921-5e6eb17b787b h1:n16eg6tTLObOw/LHk2mPzOnKy73NamUcmmrWsvOPdlA=
+github.com/d3code/clog v0.0.0-20230529101921-5e6eb17b787b/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
 github.com/d3code/pkg v0.0.0-20230528121517-cc49780ccf70 h1:zisj2q7mhuwVxlU4CY5xlvC6I9R5twkcNnlnz8IwfeA=
 github.com/d3code/pkg v0.0.0-20230528121517-cc49780ccf70/go.mod h1:a7goayOUO6HSAj9WQnlQjME/eZPX18ncm+FCdnSWZ3Q=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
