@@ -54,18 +54,19 @@ var Commit = &cobra.Command{
                     }
                 }
             }
-        }
+        } else {
 
-        directory := shell.CurrentDirectory()
-        golang.UpdateGo(directory)
-        git.CommitDirectory(directory, interactive)
+            directory := shell.CurrentDirectory()
+            golang.UpdateGo(directory)
+            git.CommitDirectory(directory, interactive)
 
-        if push {
-            err := git.FetchPullPush(directory)
-            if err != nil {
-                clog.Error(directory, "\n", err.Error())
-            } else {
-                clog.Info("Pushed changes to remote for {{ %s | blue }}", directory)
+            if push {
+                err := git.FetchPullPush(directory)
+                if err != nil {
+                    clog.Error(directory, "\n", err.Error())
+                } else {
+                    clog.Info("Pushed changes to remote for {{ %s | blue }}", directory)
+                }
             }
         }
     },
