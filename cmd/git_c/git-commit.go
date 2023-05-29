@@ -13,9 +13,9 @@ import (
 
 func init() {
     Git.AddCommand(Commit)
-    Commit.Flags().BoolP("all", "a", false, "all configured repositories")
-    Commit.Flags().BoolP("interactive", "i", false, "interactive mode")
+    Commit.Flags().BoolP("all", "a", false, "commit all configured repositories")
     Commit.Flags().BoolP("push", "p", false, "push to remote")
+    Commit.Flags().BoolP("interactive", "i", false, "interactive mode")
 }
 
 var Commit = &cobra.Command{
@@ -43,7 +43,7 @@ var Commit = &cobra.Command{
                 git.CommitDirectory(repository, interactive)
 
                 if push {
-                    git.FetchPullPush(repository)
+                    go git.FetchPullPush(repository)
                 }
             }
         }
