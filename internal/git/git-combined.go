@@ -37,10 +37,9 @@ func CommitDirectory(repository string, interactive bool) {
         return
     }
 
-    clog.InfoF("{{ %s | grey }}", repository)
+    clog.Info(commitMessage, "\n")
 
     if interactive {
-        clog.Info(commitMessage, "\n")
         if !input.PromptConfirm("Commit changes?") {
             return
         }
