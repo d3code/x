@@ -15,7 +15,7 @@ import (
 func CommitDirectory(repository string, interactive bool) {
 
     if !Is(repository) {
-        clog.Warn("Not a git repository")
+        clog.WarnF("Not a git repository %s", repository)
         repositories := slice_utils.Keys(cfg.Configuration().Git)
         inConfig := slice_utils.ContainsString(repositories, repository)
 
