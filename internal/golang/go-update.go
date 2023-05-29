@@ -46,6 +46,6 @@ func UpdateGo(directory string) {
         shell.RunCmd(directory, false, "go", "get", m+"@"+commit)
     }
 
-    shell.RunCmd(directory, false, "go", "get", "-t", "-u", "./...")
+    //shell.RunCmd(directory, false, "go", "get", "-t", "-u", "./...")
     shell.RunCmd(directory, false, "go", "mod", "tidy")
 }
