@@ -9,6 +9,7 @@ import (
     "github.com/d3code/x/internal/git"
     "github.com/d3code/x/internal/golang"
     "github.com/spf13/cobra"
+    "sync"
 )
 
 func init() {
@@ -32,6 +33,8 @@ var Commit = &cobra.Command{
         interactive, err := cmd.Flags().GetBool("interactive")
         xerr.ExitIfError(err)
 
+        var wg sync.WaitGroup
+
         if all {
             repositories := slice_utils.Keys(cfg.Configuration().Git)
 
@@ -42,8 +45,12 @@ var Commit = &cobra.Command{
                 golang.UpdateGo(repository)
                 git.CommitDirectory(repository, interactive)
 
-                if push {
-                    go git.FetchPullPush(repository)
+            }
+
+            if push {
+                for _, repository := range repositories {
+                    wg.Add(1)
+                    go Push(repository, &wg)
                 }
             }
         }
@@ -53,7 +60,18 @@ var Commit = &cobra.Command{
         git.CommitDirectory(directory, interactive)
 
         if push {
-            git.FetchPullPush(directory)
+            wg.Add(1)
+            go Push(directory, &wg)
         }
+
+        wg.Wait()
     },
+}
+
+func Push(repository string, wg *sync.WaitGroup) {
+    err := git.FetchPullPush(repository)
+    if err != nil {
+        clog.Error(repository, "\n", err.Error())
+    }
+    wg.Done()
 }

@@ -1,6 +1,7 @@
 package git
 
 import (
+    "fmt"
     "github.com/d3code/clog"
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/shell"
@@ -8,7 +9,6 @@ import (
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/gpt"
     "github.com/d3code/x/internal/input"
-    "os"
     "strings"
 )
 
@@ -66,35 +66,48 @@ func StageCommit(path string, commitMessage string) {
     Commit(path, commitMessage)
 }
 
-func FetchPullPush(path string) {
+func FetchPullPush(path string) error {
     path = shell.FullPath(path)
     clog.Debug(path)
 
     if !Is(path) {
-        clog.Error(path, "is not a git repository")
-        return
+        return fmt.Errorf(path, "is not a git repository")
     }
 
     shell.RunCmd(path, false, "git", "fetch", "-n")
 
-    Pull(path)
-    Push(path)
+    err := Pull(path)
+    if err != nil {
+        return err
+    }
+
+    err = Push(path)
+    return err
 }
 
-func Pull(path string) {
+func Pull(path string) error {
     e, err := shell.RunCmdE(path, false, "git", "pull", "--ff-only")
 
     if strings.Contains(e.Stderr, "no such ref was fetched") {
         clog.Debug("Branch does not exist on remote")
     } else if err != nil {
-        clog.Error(e.Stderr)
-        os.Exit(1)
+        return fmt.Errorf(e.Stderr)
     }
+
+    return nil
 }
 
-func Push(path string) {
-    branch := shell.RunCmd(path, false, "git", "branch", "--show-current")
-    shell.RunCmd(path, true, "git", "push", "-u", "origin", branch.Stdout)
+func Push(path string) error {
+    branch, err := shell.RunCmdE(path, false, "git", "branch", "--show-current")
+    if err != nil {
+        return err
+    }
+    out, err := shell.RunCmdE(path, false, "git", "push", "-u", "origin", branch.Stdout)
+    if err != nil {
+        return fmt.Errorf(out.Stderr)
+    }
+
+    return nil
 }
 
 func Stage(path string) (bool, string) {
