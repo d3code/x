@@ -66,7 +66,7 @@ var Commit = &cobra.Command{
                 if err != nil {
                     clog.Error(directory, "\n", err.Error())
                 } else {
-                    clog.Info("Pushed changes to remote for {{ %s | blue }}", directory)
+                    clog.InfoF("Pushed changes to remote for {{ %s | blue }}", directory)
                 }
             }
         }

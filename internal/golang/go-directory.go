@@ -5,12 +5,11 @@ import (
     "os"
 )
 
-func Go(directory string) string {
+func Go(directory string) bool {
     path := shell.FullPath(directory)
     if _, err := os.Stat(path + "/go.mod"); err != nil {
-        return ""
+        return false
     }
 
-    out := shell.RunCmd(path, false, "go", "list", "-m")
-    return out.Stdout
+    return true
 }

@@ -10,7 +10,7 @@ import (
 
 func Scan(directory string) {
     var wg sync.WaitGroup
-    if name := Go(directory); name != "" {
+    if name, module := GoModule(directory); module {
         cfg.Configuration().AddGolang(directory, cfg.Golang{
             Module: name,
         })
@@ -32,7 +32,7 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
         } else {
             directory = path + "/" + file.Name()
         }
-        if name := Go(directory); name != "" {
+        if name, module := GoModule(directory); module {
             cfg.Configuration().AddGolang(directory, cfg.Golang{
                 Module: name,
             })
@@ -51,7 +51,7 @@ func scanSubdirectories(wg *sync.WaitGroup, path string) {
 func VerifyPaths() {
     config := cfg.Configuration()
     for path, _ := range config.Golang {
-        if name := Go(path); name == "" {
+        if !Go(path) {
             config.DeleteGolang(path)
         }
     }

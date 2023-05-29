@@ -10,7 +10,7 @@ import (
 )
 
 func UpdateGo(directory string) {
-    modules, project := GoModules(directory)
+    modules, project := GoModule(directory)
     if !project {
         clog.DebugF("%s not a go project", directory)
         return
@@ -30,9 +30,13 @@ func UpdateGo(directory string) {
                 } else {
                     clog.InfoF("Updating dependent {{ go | green }} module {{ %s | blue }}", golang.Module)
                     git.StageCommit(path, commitMessage)
+                    err := git.Push(path)
+                    if err != nil {
+                        clog.Error(err.Error())
+                        continue
+                    }
                 }
 
-                git.Push(path)
                 commitHash := git.CommitHash(path)
                 dependencyVersions[golang.Module] = commitHash.Stdout
             }
@@ -47,33 +51,42 @@ func UpdateGo(directory string) {
     shell.RunCmd(directory, false, "go", "mod", "tidy")
 }
 
-func GoDependencies(directory string, list []string) []string {
+func GoDependencies(directory string, module string) []string {
     graph := shell.RunCmd(directory, false, "go", "mod", "graph")
-    lines := strings.Split(graph.Stdout, "\n")
+    dependencies := strings.Split(graph.Stdout, "\n")
 
     var modules []string
-    for _, line := range lines {
-        if line == "" {
-            continue
-        }
-
-        split := strings.Split(line, " ")
-        if len(split) == 2 && split[0] == list[0] {
+    for _, relationship := range dependencies {
+        split := strings.Split(relationship, " ")
+        if len(split) == 2 && split[0] == module {
             dependency := split[1]
             dependency = strings.Split(dependency, "@")[0]
             modules = append(modules, dependency)
         }
     }
+
     return modules
 }
 
-func GoModules(directory string) ([]string, bool) {
+func GoModule(directory string) (string, bool) {
+    if !Go(directory) {
+        return "", false
+    }
+
     project, err := shell.RunCmdE(directory, false, "go", "list", "-m")
     if err != nil {
-        clog.Warn("No go project found")
-        return nil, true
+        clog.Debug(directory, "no go project found")
+        return "", false
     }
 
     list := strings.Split(project.Stdout, "\n")
-    return list, false
+    if len(list) == 0 {
+        clog.Error(directory, "no go module found")
+        return "", false
+    } else if len(list) > 1 {
+        clog.WarnF("%s multiple go modules found %v\n", "returning first module %s", directory, list, list[0])
+        return list[0], false
+    }
+
+    return list[0], true
 }

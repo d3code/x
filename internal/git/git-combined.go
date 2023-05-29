@@ -13,7 +13,6 @@ import (
 )
 
 func CommitDirectory(repository string, interactive bool) {
-
     if !Is(repository) {
         clog.WarnF("Not a git repository %s", repository)
         repositories := slice_utils.Keys(cfg.Configuration().Git)
@@ -30,7 +29,7 @@ func CommitDirectory(repository string, interactive bool) {
 
     commitMessage, changes := gpt.GenerateCommitMessage(repository)
     if !changes {
-        clog.Info("No changes detected")
+        clog.Debug("No changes detected")
         return
     } else if commitMessage == "" {
         clog.Warn("No commit message provided, changes not committed")
