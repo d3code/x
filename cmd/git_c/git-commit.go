@@ -34,17 +34,17 @@ var Commit = &cobra.Command{
 
         if all {
             repositories := slice_utils.Keys(cfg.Configuration().Git)
-
             for _, repository := range repositories {
 
                 clog.UnderlineF("Checking {{ %s | blue }}", repository)
 
                 golang.UpdateGo(repository)
                 git.CommitDirectory(repository, interactive)
-
             }
 
             if push {
+                clog.UnderlineF("{{ Pushing changes | green }}")
+
                 for _, repository := range repositories {
                     err := git.FetchPullPush(repository)
                     if err != nil {
@@ -54,6 +54,7 @@ var Commit = &cobra.Command{
                     }
                 }
             }
+
         } else {
 
             directory := shell.CurrentDirectory()
