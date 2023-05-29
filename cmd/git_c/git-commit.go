@@ -39,7 +39,7 @@ var Commit = &cobra.Command{
                 clog.UnderlineF("Checking {{ %s | blue }}", repository)
 
                 golang.UpdateGo(repository)
-                //git.GitignoreCreate(repository)
+                git.GitignoreCreate(repository)
                 git.CommitDirectory(repository, interactive)
 
                 err := git.FetchPullPush(repository)
@@ -55,7 +55,7 @@ var Commit = &cobra.Command{
             directory := shell.CurrentDirectory()
 
             golang.UpdateGo(directory)
-            //git.GitignoreCreate(directory)
+            git.GitignoreCreate(directory)
             git.CommitDirectory(directory, interactive)
 
             if push {
