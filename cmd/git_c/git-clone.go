@@ -5,7 +5,7 @@ import (
     "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/git"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/spf13/cobra"
     "os"
     "regexp"
@@ -28,7 +28,7 @@ var cloneCmd = &cobra.Command{
         if len(args) > 0 {
             repository = args[0]
         } else {
-            repository = input.PromptString("Repository to clone", true)
+            repository = prompt.String("Repository to clone", true)
         }
 
         url := git.FormatRepositoryUrl(repository)

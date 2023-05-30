@@ -5,7 +5,7 @@ import (
     "github.com/d3code/pkg/files"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/github"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/google/uuid"
     "github.com/spf13/cobra"
     "os"
@@ -22,7 +22,7 @@ var Create = &cobra.Command{
     Aliases: []string{"c"},
     Run: func(cmd *cobra.Command, args []string) {
 
-        title := input.PromptString("Issue title", true)
+        title := prompt.String("Issue title", true)
         issuedDetails := IssueDetails(cmd, title)
 
         github.CreateIssue(title, issuedDetails, []string{"enhancement"})

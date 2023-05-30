@@ -6,9 +6,10 @@ import (
     "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/manifoldco/promptui"
     "github.com/spf13/cobra"
+    "sort"
 )
 
 func init() {
@@ -32,7 +33,8 @@ var repo = &cobra.Command{
             clog.Error("No git repositories found in config")
         }
 
-        _, directory := input.PromptSelect("Select a git repository", directories)
+        sort.Strings(directories)
+        _, directory := prompt.Select("Select a git repository", directories)
         action, dir := ActionOption(directory)
         switch action {
         case openCode:
@@ -53,7 +55,7 @@ func ActionOption(localDirectory string) (string, string) {
             Active:   "  {{ . | green }}",
             Inactive: "  {{ . }}",
         },
-        Stdout: input.NoBellStdout,
+        Stdout: prompt.NoBellStdout,
     }
 
     _, action, err := prompt.Run()

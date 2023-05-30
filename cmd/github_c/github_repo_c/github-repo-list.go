@@ -16,6 +16,7 @@ var List = &cobra.Command{
     Use: "list",
 
     Run: func(cmd *cobra.Command, args []string) {
+
         account := github.Account()
         repositories := github.Repositories(account)
         sort.Sort(github.RepositoryList(repositories))

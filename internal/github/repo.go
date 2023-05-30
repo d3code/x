@@ -2,13 +2,13 @@ package github
 
 import (
     "github.com/d3code/pkg/xerr"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/manifoldco/promptui"
     "strings"
 )
 
 func Repo(repos []RepoResponse) RepoResponse {
-    prompt := promptui.Select{
+    selectPrompt := promptui.Select{
         Label:             "Select repository",
         Items:             repos,
         HideHelp:          true,
@@ -29,10 +29,10 @@ func Repo(repos []RepoResponse) RepoResponse {
             }
             return strings.Contains(name, input)
         },
-        Stdout: input.NoBellStdout,
+        Stdout: prompt.NoBellStdout,
     }
 
-    run, _, err := prompt.Run()
+    run, _, err := selectPrompt.Run()
     xerr.ExitIfError(err)
 
     return repos[run]

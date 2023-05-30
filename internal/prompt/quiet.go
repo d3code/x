@@ -1,4 +1,4 @@
-package input
+package prompt
 
 import "github.com/chzyer/readline"
 

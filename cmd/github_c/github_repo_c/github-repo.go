@@ -6,7 +6,7 @@ import (
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/github"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/manifoldco/promptui"
     "github.com/spf13/cobra"
     "sort"
@@ -84,7 +84,7 @@ func ActionOption(repo github.RepoResponse, localDirectory string) (string, stri
             Active:   "  {{ . | green }}",
             Inactive: "  {{ . }}",
         },
-        Stdout: input.NoBellStdout,
+        Stdout: prompt.NoBellStdout,
     }
 
     _, action, err := prompt.Run()

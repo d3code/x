@@ -1,13 +1,14 @@
-package input
+package prompt
 
 import (
     "fmt"
+    "strings"
 
     "github.com/d3code/pkg/xerr"
     "github.com/manifoldco/promptui"
 )
 
-func PromptString(label string, required bool) string {
+func String(label string, required bool) string {
     validate := func(input string) error {
         if len(input) <= 0 && required {
             return fmt.Errorf("please enter a value")
@@ -35,11 +36,18 @@ func PromptString(label string, required bool) string {
     return result
 }
 
-func PromptSelect(label string, items []string) (int, string) {
+func Select(label string, items []string) (int, string) {
     prompt := promptui.Select{
-        Label:    label,
-        Items:    items,
-        Stdout:   NoBellStdout,
+        Label:  label,
+        Items:  items,
+        Stdout: NoBellStdout,
+        Searcher: func(input string, index int) bool {
+            item := items[index]
+            if strings.Contains(strings.ToLower(item), strings.ToLower(input)) {
+                return true
+            }
+            return false
+        },
         HideHelp: true,
     }
 
@@ -49,10 +57,10 @@ func PromptSelect(label string, items []string) (int, string) {
     return index, result
 }
 
-// PromptConfirm prompts the user to confirm a question with a yes or no answer.
+// Confirm prompts the user to confirm a question with a yes or no answer.
 // It displays a select prompt with the given label and returns true if the user selects "yes",
 // and false if the user selects "no".
-func PromptConfirm(label string) bool {
+func Confirm(label string) bool {
     prompt := promptui.Select{
         Label:        label,
         Items:        []string{"yes", "no"},

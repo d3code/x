@@ -8,7 +8,7 @@ import (
     "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/x/internal/cfg"
     "github.com/d3code/x/internal/gpt"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "strings"
 )
 
@@ -18,7 +18,7 @@ func CommitDirectory(repository string, interactive bool) {
         repositories := slice_utils.Keys(cfg.Configuration().Git)
         inConfig := slice_utils.ContainsString(repositories, repository)
 
-        if interactive && inConfig && input.PromptConfirm("Remove directory from config?") {
+        if interactive && inConfig && prompt.Confirm("Remove directory from config?") {
             cfg.Configuration().DeleteGitDirectory(repository)
         } else if !interactive {
             cfg.Configuration().DeleteGitDirectory(repository)
@@ -39,7 +39,7 @@ func CommitDirectory(repository string, interactive bool) {
     clog.Info(commitMessage, "\n")
 
     if interactive {
-        if !input.PromptConfirm("Commit changes?") {
+        if !prompt.Confirm("Commit changes?") {
             return
         }
     }
@@ -57,7 +57,7 @@ func StageCommit(path string, commitMessage string) {
     }
 
     file := path + "/.gitignore"
-    if !files.Exist(file) && input.PromptConfirm("Create {{ .gitignore | green }}?") {
+    if !files.Exist(file) && prompt.Confirm("Create {{ .gitignore | green }}?") {
         clog.InfoF("Creating {{ .gitignore | green }} with defaults at {{ %s | blue }}", file)
         GitignoreCreate(path)
     }

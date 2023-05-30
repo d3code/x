@@ -5,7 +5,7 @@ import (
     "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/pkg/xerr"
     "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/manifoldco/promptui"
     "os"
 )
@@ -34,7 +34,7 @@ func Account() string {
             Details:  "",
             Help:     "",
         },
-        Stdout: input.NoBellStdout,
+        Stdout: prompt.NoBellStdout,
     }
 
     run, _, err := prompt.Run()

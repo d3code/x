@@ -34,8 +34,8 @@ func init() {
 }
 
 type Config struct {
-    Git         map[string]Git       `yaml:"git"`
     GitHub      map[string]GitHub    `yaml:"github"`
+    Git         map[string]Git       `yaml:"git"`
     Golang      map[string]Golang    `yaml:"go"`
     Terraform   map[string]Terraform `yaml:"terraform"`
     Angular     map[string]Angular   `yaml:"angular"`

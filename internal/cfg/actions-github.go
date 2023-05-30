@@ -4,7 +4,7 @@ import (
     "github.com/d3code/clog"
 )
 
-func (c *Config) SetGitHubUser(user string, github GitHub) {
+func (c *Config) AddGitHubUser(user string, github GitHub) {
     mapMutex.Lock()
     clog.Info("[ github ] {{ " + user + " | blue }} set")
     c.GitHub[user] = github

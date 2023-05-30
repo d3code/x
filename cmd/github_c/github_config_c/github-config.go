@@ -5,7 +5,7 @@ import (
     "github.com/d3code/clog/color"
     "github.com/d3code/pkg/shell"
     "github.com/d3code/x/internal/cfg"
-    "github.com/d3code/x/internal/input"
+    "github.com/d3code/x/internal/prompt"
     "github.com/spf13/cobra"
 )
 
@@ -24,7 +24,7 @@ var Root = &cobra.Command{
             clog.InfoL("This will set the current directory as the default clone directory for GitHub repositories.",
                 "This can be changed later in the configuration file.", color.String(curDir, "blue"), "")
 
-            if input.PromptConfirm("Set current directory") {
+            if prompt.Confirm("Set current directory") {
 
             }
         }
@@ -40,11 +40,11 @@ var Root = &cobra.Command{
 }
 
 func GitHubConfiguration() {
-    username := input.PromptString("GitHub username", true)
-    token := input.PromptString("GitHub token", true)
+    username := prompt.String("GitHub username", true)
+    token := prompt.String("GitHub token", true)
 
     configuration := cfg.Configuration()
-    configuration.SetGitHubUser(username, cfg.GitHub{
+    configuration.AddGitHubUser(username, cfg.GitHub{
         Token: token,
     })
     configuration.Save()
