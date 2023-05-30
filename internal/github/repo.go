@@ -19,7 +19,6 @@ func Repo(repos []RepoResponse) RepoResponse {
             Active:   "  {{ .FullName | green }}",
             Inactive: "  {{ .FullName }}",
             Details:  "\n{{ .Description }}\n{{ .HtmlUrl }}\n",
-            Help:     "",
         },
         Searcher: func(input string, index int) bool {
             repo := repos[index]

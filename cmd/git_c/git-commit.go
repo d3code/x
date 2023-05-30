@@ -42,11 +42,13 @@ var Commit = &cobra.Command{
                 git.GitignoreCreate(repository)
                 git.CommitDirectory(repository, interactive)
 
-                err := git.FetchPullPush(repository)
-                if err != nil {
-                    clog.Error(repository, "\n", err.Error())
-                } else {
-                    clog.InfoF("{{ Up to date with remote | green }}")
+                if push {
+                    err := git.Push(repository)
+                    if err != nil {
+                        clog.Error(repository, "\n", err.Error())
+                    } else {
+                        clog.InfoF("{{ Up to date with remote | green }}")
+                    }
                 }
             }
 
@@ -59,7 +61,7 @@ var Commit = &cobra.Command{
             git.CommitDirectory(directory, interactive)
 
             if push {
-                err := git.FetchPullPush(directory)
+                err := git.Push(directory)
                 if err != nil {
                     clog.Error(directory, "\n", err.Error())
                 } else {
