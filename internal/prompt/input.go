@@ -48,6 +48,12 @@ func Select(label string, items []string) (int, string) {
             }
             return false
         },
+
+        Templates: &promptui.SelectTemplates{
+            Label:    "  {{ . }}",
+            Active:   "  {{ . | green }}",
+            Inactive: "  {{ . }}",
+        },
         HideHelp: true,
     }
 
@@ -62,14 +68,20 @@ func Select(label string, items []string) (int, string) {
 // and false if the user selects "no".
 func Confirm(label string) bool {
     prompt := promptui.Select{
-        Label:        label,
-        Items:        []string{"yes", "no"},
-        Stdout:       NoBellStdout,
+        Label:  label,
+        Items:  []string{"yes", "no"},
+        Stdout: NoBellStdout,
+        Templates: &promptui.SelectTemplates{
+            Label:    "  {{ . }}",
+            Active:   "  {{ . | green }}",
+            Inactive: "  {{ . }}",
+        },
         HideHelp:     true,
         HideSelected: true,
     }
 
     _, result, err := prompt.Run()
     xerr.ExitIfError(err)
+
     return result == "yes"
 }

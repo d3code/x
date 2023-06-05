@@ -7,7 +7,7 @@ import (
 func (c *Config) AddGitDirectory(path string, git Git) {
     mapMutex.Lock()
     if _, ok := c.Git[path]; !ok {
-        clog.Debug("Added git repository " + path + " -> " + git.Remote)
+        clog.Info("Added git repository {{ " + path + " | blue }} -> " + git.Remote)
         c.Git[path] = git
     }
     c.Save()

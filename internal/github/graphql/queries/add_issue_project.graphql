@@ -1,0 +1,10 @@
+mutation AddIssueToProject {
+    addProjectV2ItemById(input: {
+        projectId: "PVT_kwDOACbMvs4AQSiA",
+        contentId: "I_kwDOJcQeDc5nRXdM",
+    }) {
+        item {
+            id
+        }
+    }
+}

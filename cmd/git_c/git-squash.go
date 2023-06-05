@@ -18,7 +18,7 @@ var squashCmd = &cobra.Command{
     Use:   "squash",
     Short: "Squash all commits into one",
     PreRun: func(cmd *cobra.Command, args []string) {
-        if !git.Is(".") {
+        if !git.Git(".") {
             clog.ErrorF("%s is not a git repository", shell.CurrentDirectory())
             os.Exit(1)
         }

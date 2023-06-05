@@ -11,7 +11,7 @@ import (
     "strings"
 )
 
-func Request(method string, url string, body string, account string, response any) {
+func Request(method string, url string, body string, account string, response any) string {
     configuration := cfg.Configuration()
     gh, ok := configuration.GitHub[account]
 
@@ -29,6 +29,11 @@ func Request(method string, url string, body string, account string, response an
     res, _ := client.Do(req)
     responseBody, _ := io.ReadAll(res.Body)
 
+    link := res.Header.Get("link")
+    clog.Info(link)
+
     err := json.Unmarshal(responseBody, response)
     xerr.ExitIfError(err)
+
+    return link
 }

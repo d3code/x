@@ -2,6 +2,7 @@ package github
 
 import (
     "fmt"
+    "github.com/d3code/clog"
 )
 
 func Repositories(account string) []RepoResponse {
@@ -10,6 +11,7 @@ func Repositories(account string) []RepoResponse {
     orgResponse := Org(account)
     for _, org := range orgResponse {
         repoResponse := OrgRepositories(org.Login, account)
+        clog.InfoF("Repositories: %v", len(repoResponse))
         for _, repo := range repoResponse {
             repositories = append(repositories, repo)
         }

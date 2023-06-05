@@ -8,7 +8,7 @@ import (
     "strings"
 )
 
-func Is(directory string) bool {
+func Git(directory string) bool {
     path := shell.FullPath(directory)
     if f, err := os.Stat(path + "/.git"); err != nil || !f.IsDir() {
         clog.Debug(path, "no .git directory found")

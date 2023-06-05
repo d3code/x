@@ -11,7 +11,6 @@ import (
 )
 
 func init() {
-
     Git.AddCommand(remoteCmd)
 }
 
@@ -19,8 +18,8 @@ var remoteCmd = &cobra.Command{
     Use:   "remote",
     Short: "Show or update remote repository",
     PreRun: func(cmd *cobra.Command, args []string) {
-        if !git.Is(".") {
-            clog.Info("{{ERROR|red}} Current directory is not a git repository")
+        if !git.Git(".") {
+            clog.Error("Current directory is not a git repository")
             os.Exit(1)
         }
     },

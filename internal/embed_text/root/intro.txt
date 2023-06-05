@@ -1,10 +1,9 @@
-
 {{ ############################################################################ | grey }}
 
-Welcome to {{ X | blue }}, your ultimate command line companion for automating repetitive developer tasks! 
+Welcome to {{ X | blue }}, your ultimate command line companion for automating repetitive developer tasks!
 
 Say goodbye to tedious manual work and unleash the power of automation with X. Whether you're a software engineer, a DevOps specialist, or a code wizard, X is here to make your life easier and more enjoyable.
 
-For more information, visit https://github.com/d3code/x
+For more information, visit {{ https://github.com/d3code/x | blue }}
 
 {{ ############################################################################ | grey }}

@@ -1,0 +1,30 @@
+query ($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+        id
+        name
+        assignableUsers(first: 10) {
+            nodes {
+                id
+                name
+            }
+        }
+        milestones(first: 10) {
+            nodes {
+                id
+                title
+            }
+        }
+        labels(first: 10) {
+            nodes {
+                id
+                name
+            }
+        }
+        projectsV2(first: 10) {
+            nodes {
+                id
+                title
+            }
+        }
+    }
+}

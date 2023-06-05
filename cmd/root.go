@@ -11,7 +11,7 @@ import (
     "github.com/d3code/x/cmd/go_c"
     "github.com/d3code/x/cmd/terraform_c"
     "github.com/d3code/x/cmd/util_c"
-    "github.com/d3code/x/internal/help"
+    "github.com/d3code/x/internal/embed_text"
     "github.com/spf13/cobra"
 )
 
@@ -36,7 +36,7 @@ func init() {
 
 var Root = &cobra.Command{
     Use:  "x",
-    Long: color.Template(help.Root),
+    Long: color.Template(embed_text.Root),
 }
 
 func Execute() {

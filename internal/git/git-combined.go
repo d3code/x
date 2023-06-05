@@ -13,7 +13,7 @@ import (
 )
 
 func CommitDirectory(repository string, interactive bool) {
-    if !Is(repository) {
+    if !Git(repository) {
         clog.WarnF("Not a git repository %s", repository)
         repositories := slice_utils.Keys(cfg.Configuration().Git)
         inConfig := slice_utils.ContainsString(repositories, repository)
@@ -51,7 +51,7 @@ func StageCommit(path string, commitMessage string) {
     path = shell.FullPath(path)
     clog.Debug(path)
 
-    if !Is(path) {
+    if !Git(path) {
         clog.Error(path, "is not a git repository")
         return
     }
@@ -70,7 +70,7 @@ func FetchPullPush(path string) error {
     path = shell.FullPath(path)
     clog.Debug(path)
 
-    if !Is(path) {
+    if !Git(path) {
         return fmt.Errorf(path, "is not a git repository")
     }
 

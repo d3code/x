@@ -39,7 +39,7 @@ var Commit = &cobra.Command{
                 clog.UnderlineF("Checking {{ %s | blue }}", repository)
 
                 golang.UpdateGo(repository)
-                git.GitignoreCreate(repository)
+                //git.GitignoreCreate(repository)
                 git.CommitDirectory(repository, interactive)
 
                 if push {

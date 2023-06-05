@@ -19,7 +19,7 @@ var cloneCmd = &cobra.Command{
     Use:   "clone",
     Short: "Clone a git repository",
     Run: func(cmd *cobra.Command, args []string) {
-        if git.Is(".") {
+        if git.Git(".") {
             clog.Error("Current directory is already a git repository")
             return
         }

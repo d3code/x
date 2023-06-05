@@ -1,4 +1,4 @@
-package help
+package embed_text
 
 import _ "embed"
 

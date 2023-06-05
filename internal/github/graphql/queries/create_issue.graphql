@@ -1,0 +1,13 @@
+mutation CreateIssue {
+    createIssue(input: {
+        repositoryId: "R_kgDOJcQeDQ",
+        title: "Test Issue",
+        body: "GraphQL Test Issue",
+    }) {
+        issue {
+            number
+            body
+            id
+        }
+    }
+}

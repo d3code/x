@@ -23,7 +23,6 @@ func Remote(path string) (string, error) {
 
 func SetRemote(path string, repo string) {
     url := FormatRepositoryUrl(repo)
-
     shell.RunCmd(path, false, "git", "remote", "set-url", "origin", url)
 }
 

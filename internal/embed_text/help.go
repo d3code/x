@@ -1,7 +1,7 @@
-package help
+package embed_text
 
 import (
-	_ "embed"
+    _ "embed"
 )
 
 //go:embed util/ip.txt

@@ -24,7 +24,6 @@ func GetProjects() {
     js, err := json.Marshal(variablesMap)
     xerr.ExitIfError(err)
 
-    //query = strings.Replace(query, "$organization", "d3code", -1)
     jsonMapInstance := map[string]string{
         "query":     query,
         "variables": string(js),
@@ -57,6 +56,8 @@ func RequestGraph(body []byte, account string, response any) {
 
     res, _ := client.Do(req)
     responseBody, _ := io.ReadAll(res.Body)
+
+    clog.Info(string(responseBody))
 
     err := json.Unmarshal(responseBody, response)
     xerr.ExitIfError(err)

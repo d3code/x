@@ -7,7 +7,7 @@ import (
 func (c *Config) AddGolang(path string, goConfig Golang) {
     mapMutex.Lock()
     if _, ok := c.Golang[path]; !ok {
-        clog.Info("[ go    ] {{ " + path + " | blue }} added")
+        clog.Info("Added Go project {{ " + path + " | blue }} added")
     }
     c.Golang[path] = goConfig
     c.Save()

@@ -3,13 +3,13 @@ package git
 import (
     "github.com/d3code/x/internal/cfg"
     "os"
-    "strings"
+    "path"
     "sync"
 )
 
 func Scan(directory string) {
     var wg sync.WaitGroup
-    if Is(directory) {
+    if Git(directory) {
         remote, _ := Remote(directory)
         cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
     } else {
@@ -19,16 +19,13 @@ func Scan(directory string) {
     wg.Wait()
 }
 
-func ScanSubdirectories(wg *sync.WaitGroup, path string) {
-    files, _ := os.ReadDir(path)
+func ScanSubdirectories(wg *sync.WaitGroup, newPath string) {
+    files, _ := os.ReadDir(newPath)
+
     for _, file := range files {
-        var directory string
-        if strings.HasSuffix(path, "/") {
-            directory = path + file.Name()
-        } else {
-            directory = path + "/" + file.Name()
-        }
-        if Is(directory) {
+        directory := path.Join(newPath, file.Name())
+
+        if Git(directory) {
             remote, _ := Remote(directory)
             cfg.Configuration().AddGitDirectory(directory, cfg.Git{Remote: remote})
         } else if file.IsDir() {
