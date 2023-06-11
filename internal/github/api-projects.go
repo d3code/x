@@ -16,6 +16,9 @@ import (
 //go:embed graphql/queries/projects.graphql
 var query string
 
+//go:embed graphql/queries/repos.graphql
+var queryRepos string
+
 func GetProjects() {
     variablesMap := map[string]string{
         "org": "d3code",

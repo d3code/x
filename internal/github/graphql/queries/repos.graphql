@@ -1,0 +1,39 @@
+query ($user: String!) {
+    user(login: $user) {
+        organizations(first: 10) {
+            nodes {
+                name
+                repositories(first: 100) {
+                    nodes {
+                        name
+                        url
+                        description
+                        primaryLanguage {
+                            name
+                        }
+                        languages(first: 10) {
+                            nodes {
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        repositories(first: 100) {
+            nodes {
+                name
+                url
+                description
+                primaryLanguage {
+                    name
+                }
+                languages(first: 10) {
+                    nodes {
+                        name
+                    }
+                }
+            }
+        }
+    }
+}
