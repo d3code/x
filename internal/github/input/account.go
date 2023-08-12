@@ -1,4 +1,4 @@
-package github
+package input
 
 import (
     "github.com/d3code/clog"

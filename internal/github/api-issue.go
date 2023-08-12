@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/x/internal/cfg"
+    "github.com/d3code/x/internal/github/input"
     "sort"
 )
 
@@ -16,7 +17,7 @@ func CreateIssue(title string, body string, labels []string) IssueResponse {
     if len(keys) == 1 {
         account = keys[0]
     } else {
-        account = Account()
+        account = input.Account()
     }
 
     repositories := RepositoriesWithIssues(account)

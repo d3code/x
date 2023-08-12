@@ -4,6 +4,7 @@ import (
     "github.com/d3code/clog"
     "github.com/d3code/pkg/slice_utils"
     "github.com/d3code/x/internal/cfg"
+    "github.com/d3code/x/internal/github/input"
     "sort"
     "time"
 )
@@ -16,7 +17,7 @@ func ListIssue() []IssueList {
     if len(keys) == 1 {
         account = keys[0]
     } else {
-        account = Account()
+        account = input.Account()
     }
 
     repositories := RepositoriesWithIssues(account)

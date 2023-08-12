@@ -7,19 +7,27 @@ import (
     "github.com/d3code/pkg/xerr"
 )
 
-func Repositories(account string) []RepoResponse {
-    repositories := AccountRepositories(account)
+func Repositories(account string) []SimpleRepo {
+    var repos []SimpleRepo
 
-    orgResponse := Org(account)
-    for _, org := range orgResponse {
-        repoResponse := OrgRepositories(org.Login, account)
-        clog.InfoF("Repositories: %v", len(repoResponse))
-        for _, repo := range repoResponse {
-            repositories = append(repositories, repo)
+    repositories := AccRepositories(account)
+    for _, node := range repositories.Data.User.Repositories.Nodes {
+        repos = append(repos, SimpleRepo{
+            Name:  node.Name,
+            Owner: account,
+        })
+    }
+
+    for _, node := range repositories.Data.User.Organizations.Nodes {
+        for _, s := range node.Repositories.Nodes {
+            repos = append(repos, SimpleRepo{
+                Name:  s.Name,
+                Owner: node.Name,
+            })
         }
     }
 
-    return repositories
+    return repos
 }
 
 func RepositoriesWithIssues(account string) []RepoResponse {
@@ -70,6 +78,12 @@ func AccountRepositories(account string) []RepoResponse {
     return response
 }
 
+type SimpleRepo struct {
+    Name  string `json:"name"`
+    Url   string `json:"url"`
+    Owner string `json:"owner"`
+}
+
 func AccRepositories(user string) Repos {
     variablesMap := map[string]string{
         "user": user,
@@ -107,6 +121,7 @@ type Repos struct {
         User struct {
             Organizations struct {
                 Nodes []struct {
+                    Name         string `json:"name"`
                     Repositories struct {
                         Nodes []struct {
                             Name            string  `json:"name"`
