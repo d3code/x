@@ -22,7 +22,7 @@ func Account() string {
         return keys[0]
     }
 
-    prompt := promptui.Select{
+    promptSelect := promptui.Select{
         Label:        "Account",
         Items:        keys,
         HideHelp:     true,
@@ -37,7 +37,7 @@ func Account() string {
         Stdout: prompt.NoBellStdout,
     }
 
-    run, _, err := prompt.Run()
+    run, _, err := promptSelect.Run()
     xerr.ExitIfError(err)
 
     clog.InfoF("Selected account: %s", keys[run])

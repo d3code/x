@@ -8,6 +8,8 @@ import (
     "github.com/manifoldco/promptui"
 )
 
+// String prompts the user to enter a string value.
+// If required is true, the user will be prompted again if they enter an empty string.
 func String(label string, required bool) string {
     validate := func(input string) error {
         if len(input) <= 0 && required {
@@ -36,6 +38,8 @@ func String(label string, required bool) string {
     return result
 }
 
+// Select prompts the user to select an item from a list of items.
+// It displays a select prompt with the given label and returns the index and value of the selected item.
 func Select(label string, items []string) (int, string) {
     prompt := promptui.Select{
         Label:  label,
@@ -48,13 +52,11 @@ func Select(label string, items []string) (int, string) {
             }
             return false
         },
-
         Templates: &promptui.SelectTemplates{
             Label:    "  {{ . }}",
             Active:   "  {{ . | green }}",
             Inactive: "  {{ . }}",
         },
-        HideHelp: true,
     }
 
     index, result, err := prompt.Run()

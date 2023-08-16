@@ -3,7 +3,6 @@ package github
 import (
     "encoding/json"
     "fmt"
-    "github.com/d3code/clog"
     "github.com/d3code/pkg/xerr"
 )
 
@@ -101,17 +100,7 @@ func AccRepositories(user string) Repos {
     xerr.ExitIfError(err)
 
     var response Repos
-    RequestGraph(jsonResult, "luk3sands", &response)
-
-    for _, node := range response.Data.User.Repositories.Nodes {
-        clog.InfoF("%s: %s", node.Name, node.Url)
-    }
-
-    for _, node := range response.Data.User.Organizations.Nodes {
-        for _, s := range node.Repositories.Nodes {
-            clog.InfoF("%s: %s", s.Name, s.Url)
-        }
-    }
+    RequestGraph(jsonResult, user, &response)
 
     return response
 }

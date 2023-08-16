@@ -60,8 +60,6 @@ func RequestGraph(body []byte, account string, response any) {
     res, _ := client.Do(req)
     responseBody, _ := io.ReadAll(res.Body)
 
-    clog.Info(string(responseBody))
-
     err := json.Unmarshal(responseBody, response)
     xerr.ExitIfError(err)
 }
