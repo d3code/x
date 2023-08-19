@@ -1,0 +1,4 @@
+Generate a git commit message based on the following changes.
+Be brief in the first line then give a detailed description in subsequent lines.
+If you aren't able to determine a commit message, simply reply with a very general commit message such as 'Update project', but more verbose.
+

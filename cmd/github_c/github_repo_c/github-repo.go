@@ -6,7 +6,6 @@ import (
     "github.com/d3code/x/internal/github/input"
     "github.com/d3code/x/internal/prompt"
     "github.com/spf13/cobra"
-    "strings"
 )
 
 const (
@@ -45,12 +44,4 @@ var Root = &cobra.Command{
 
 func GetActions(repo string) []string {
     return []string{"Details", openCode, openGitHub, "Delete", "Update", "Commit", "Exit"}
-}
-
-func normalizeRemote(remote string) string {
-    remote = strings.TrimSuffix(remote, ".git")
-    remote = strings.TrimPrefix(remote, "ssh://")
-    remote = strings.ReplaceAll(remote, "git@github.com/", "git@github.com:")
-
-    return remote
 }

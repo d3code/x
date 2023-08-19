@@ -5,9 +5,10 @@ import (
     "strings"
 )
 
-func FormatRepositoryUrl(repository string) string {
-    if !strings.HasPrefix(repository, "https://") && !strings.HasPrefix(repository, "git@") {
-        return "git@github.com:" + repository + ".git"
-    }
-    return repository
+func FormatRepositoryUrl(remote string) string {
+    remote = strings.TrimSuffix(remote, ".git")
+    remote = strings.TrimPrefix(remote, "ssh://")
+    remote = strings.ReplaceAll(remote, "git@github.com/", "git@github.com:")
+
+    return remote
 }

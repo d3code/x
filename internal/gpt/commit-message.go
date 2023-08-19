@@ -2,6 +2,7 @@ package gpt
 
 import (
     "bytes"
+    _ "embed"
     "encoding/json"
     "io"
     "net/http"
@@ -12,6 +13,9 @@ import (
     "github.com/d3code/pkg/shell"
     "github.com/d3code/pkg/xerr"
 )
+
+//go:embed prompt-commit.txt
+var promptCommit string
 
 // GenerateCommitMessage generates a commit message based on the changes (git diff)
 // in the current git repository using the OpenAI GPT API
@@ -39,7 +43,7 @@ func GenerateCommitMessage(path string) (string, bool) {
         Messages: []Content{
             {
                 Role:    "user",
-                Content: "Generate a git commit message based on the following changes. Be brief in the first line then give a detailed description in subsequent lines. If you arent able to determine a commit message, simply reply with a very general commit message such as 'Update project', but more verbose.\n" + status.Stdout,
+                Content: promptCommit + status.Stdout,
             },
         },
         Temperature: 0.7,
