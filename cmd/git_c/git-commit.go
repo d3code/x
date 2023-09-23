@@ -57,7 +57,7 @@ var Commit = &cobra.Command{
             directory := shell.CurrentDirectory()
 
             golang.UpdateGo(directory)
-            git.GitignoreCreate(directory)
+            //git.GitignoreCreate(directory)
             git.CommitDirectory(directory, interactive)
 
             if push {
