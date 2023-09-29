@@ -19,7 +19,7 @@ var List = &cobra.Command{
         repositories := github.Repositories(account)
 
         for _, repo := range repositories {
-            clog.InfoF(" {{ %s/%s | blue }}", repo.Owner, repo.Name)
+            clog.Infof(" {{ %s/%s | blue }}", repo.Owner, repo.Name)
         }
     },
 }

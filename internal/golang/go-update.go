@@ -25,9 +25,9 @@ func UpdateGo(directory string) {
                 commitMessage, changes := gpt.GenerateCommitMessage(path)
 
                 if !changes {
-                    clog.InfoF("No changes in dependent {{ Go | green }} module {{ %s | blue }}", golang.Module)
+                    clog.Infof("No changes in dependent {{ Go | green }} module {{ %s | blue }}", golang.Module)
                 } else {
-                    clog.InfoF("Updating dependent {{ Go | green }} module {{ %s | blue }}", golang.Module)
+                    clog.Infof("Updating dependent {{ Go | green }} module {{ %s | blue }}", golang.Module)
                     git.StageCommit(path, commitMessage)
                     err := git.Push(path)
                     if err != nil {

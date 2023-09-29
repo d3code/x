@@ -8,10 +8,10 @@ github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMn
 github.com/chzyer/test v1.0.0 h1:p3BQDXSxOhOG0P9z6/hGnII4LGiEPOYBhs8asl/fC04=
 github.com/chzyer/test v1.0.0/go.mod h1:2JlltgoNkt4TW/z9V/IzDdFaMTM2JPIi26O1pF38GC8=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
-github.com/d3code/clog v0.0.0-20230529212721-c2862b694b95 h1:LFjYeJgzldJkc1jLHltxsC4BtZt2rJgHAKvt7d311iM=
-github.com/d3code/clog v0.0.0-20230529212721-c2862b694b95/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
-github.com/d3code/pkg v0.0.0-20230916153423-97cd443857d8 h1:QY0u480dWK+DuhIcO1QHxbqDwscxRxEqkQ/u526PddQ=
-github.com/d3code/pkg v0.0.0-20230916153423-97cd443857d8/go.mod h1:Uydgq5tUGn2j7kw1tHyvMTB6YNLKsqZSgBiluOxTnx4=
+github.com/d3code/clog v0.0.0-20230929023203-6b1128fc5ab3 h1:nadS2BV4kLVNPvqbsbgOWF9ykDeBpLCTdpjSK0xFNpg=
+github.com/d3code/clog v0.0.0-20230929023203-6b1128fc5ab3/go.mod h1:htSVLvXJJRBj6RVdUVYLHIrpvrh4MvAVtvIn6EkjtrE=
+github.com/d3code/pkg v0.0.0-20230929023408-14ed8956ac70 h1:ilIiBV4h9nXsJgOALay6YbdeuIAvHPYUsm8PJ0+DZDg=
+github.com/d3code/pkg v0.0.0-20230929023408-14ed8956ac70/go.mod h1:VyW+zHKb0entVybISuggtFYbZM/2AIO5LYeo/+wnnRc=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=

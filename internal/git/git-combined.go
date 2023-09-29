@@ -58,7 +58,7 @@ func StageCommit(path string, commitMessage string) {
 
     file := path + "/.gitignore"
     if !files.Exist(file) && prompt.Confirm("Create {{ .gitignore | green }}?") {
-        clog.InfoF("Creating {{ .gitignore | green }} with defaults at {{ %s | blue }}", file)
+        clog.Infof("Creating {{ .gitignore | green }} with defaults at {{ %s | blue }}", file)
         GitignoreCreate(path)
     }
 
