@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/chzyer/readline v1.5.1
-	github.com/d3code/clog v0.0.0-20230929023203-6b1128fc5ab3
+	github.com/d3code/clog v0.0.0-20230930052527-683e18a3d08d
 	github.com/d3code/pkg v0.0.0-20230929023408-14ed8956ac70
 	github.com/google/uuid v1.3.0
 	github.com/manifoldco/promptui v0.9.0

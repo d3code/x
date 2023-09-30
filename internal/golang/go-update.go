@@ -11,14 +11,14 @@ import (
 func UpdateGo(directory string) {
     modules, project := GoModule(directory)
     if !project {
-        clog.DebugF("%s not a Go project", directory)
+        clog.Debugf("%s not a Go project", directory)
         return
     }
 
     dependencies := GoDependencies(directory, modules)
     dependencyVersions := make(map[string]string)
     for _, dependency := range dependencies {
-        clog.DebugF("%s", dependency)
+        clog.Debugf("%s", dependency)
 
         for path, golang := range cfg.Configuration().Golang {
             if golang.Module == dependency {

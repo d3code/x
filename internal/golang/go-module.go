@@ -22,7 +22,7 @@ func GoModule(directory string) (string, bool) {
         clog.Error(directory, "no go module found")
         return "", false
     } else if len(list) > 1 {
-        clog.WarnF("%s multiple go modules found %v\n", "returning first module %s", directory, list, list[0])
+        clog.Warnf("%s multiple go modules found %v\n", "returning first module %s", directory, list, list[0])
         return list[0], false
     }
 
